@@ -6,8 +6,7 @@ import { Box } from '@mui/system';
 import CarouselCaption from 'react-bootstrap/esm/CarouselCaption';
 
 function Rightside() {
-  return (
-    
+  return (  
     <Carousel data-bs-theme="dark" style={{  position: "absolute",left:'0px', margin:'10px' }}>
       <Carousel.Item>
         <img style={{ width: "100%", height: "auto", borderRadius: "20px" }}
@@ -33,7 +32,6 @@ function Rightside() {
         <CarouselCaption >Indian</CarouselCaption>
       </Carousel.Item>
     </Carousel>
-
   );
 }
 

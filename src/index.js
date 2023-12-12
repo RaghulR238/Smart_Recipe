@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Render1 from './page2/Render';
+import RoundContainer from './page2/signup';
+import TemporaryDrawer from './filterpage.js/leftfilter';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
-    <App />
+   <TemporaryDrawer/>
  
 );
 
