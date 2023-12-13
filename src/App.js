@@ -17,8 +17,7 @@ function App() {
     <>
     <Navbar/>
     <Container maxWidth='xl'  >
-     
-    <Stack direction='row' spacing={2} justifyContent='space-between'>
+    <Stack direction='row' sx={{ minWidth: 0 } }spacing={2} justifyContent='space-between' >
       <Content />
       <R1/>
     </Stack>

@@ -20,7 +20,6 @@ import {
   Toolbar,
   InputBase,
   Container,
-  ButtonBase,
 } from '@mui/material';
 import { Carousel, CarouselCaption, FormLabel } from 'react-bootstrap';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
@@ -35,7 +34,7 @@ const StyledToolBar = styled(Toolbar)({
   alignItems: 'center',
 });
 
-const count=[1,2,3,4,5,6,7,8];
+const count=[1,2,3,4,5,6,7,8,9,10,11,12,13];
 export default function TemporaryDrawer() {
   const [state, setState] = React.useState({
     left: true,
@@ -52,16 +51,16 @@ export default function TemporaryDrawer() {
   return (
     <div>
       <Drawer anchor="left" open={state.left} onClose={toggleDrawer(false)}>
-        <HighlightOffRoundedIcon onClick={toggleDrawer(false)} sx={{ fontSize: '55px' }} />
-        <Stack sx={{ alignItems: 'center', padding: '20px' }}>
+        <HighlightOffRoundedIcon onClick={toggleDrawer(false)} sx={{ fontSize: '55px' , margin:'20px 0px 20px 0px'}} />
+        <Stack sx={{ alignItems: 'center', padding: '20px',border: '9px solid black' }}>
           <OutdoorGrillIcon />
           <TextField
             label="Cooking Time"
-            sx={{ backgroundColor: 'white' }}
+            sx={{ backgroundColor: 'white', margin:'20px 0px 20px 0px'}}
             placeholder="Enter user name"
             fullWidth
           ></TextField>
-          <FormControl fullWidth sx={{ m: 1, minWidth: 120 }}>
+          <FormControl fullWidth sx={{ m: 1, minWidth: 120, margin:'20px 0px 20px 0px' }}>
             <InputLabel id="demo-simple-select-label">Ratings</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select">
               <MenuItem value={10}>5</MenuItem>
@@ -69,7 +68,7 @@ export default function TemporaryDrawer() {
               <MenuItem value={30}>3+</MenuItem>
             </Select>
           </FormControl>
-          <FormControl fullWidth sx={{ m: 1, minWidth: 120 }}>
+          <FormControl fullWidth sx={{ m: 1, minWidth: 120 , margin:'20px 0px 20px 0px'}}>
             <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select">
               <MenuItem value={10}>Hard</MenuItem>
@@ -77,7 +76,7 @@ export default function TemporaryDrawer() {
               <MenuItem value={30}>Easy</MenuItem>
             </Select>
           </FormControl>
-          <FormControl>
+          <FormControl sx={{ margin:'20px 0px 20px 0px'}}>
             <FormLabel id="demo-row-radio-buttons-group-label">Food Type</FormLabel>
             <RadioGroup
               row
@@ -93,10 +92,13 @@ export default function TemporaryDrawer() {
             control={<Checkbox />}
             label="Pure Hygienic"
             labelPlacement="start"
+            sx={{ margin:'20px 0px 20px 0px'}}
           />
-          <Button variant="outlined">Submit</Button>
+          <Button variant="outlined" sx={{ margin:'20px 0px 20px 0px'}}>Submit</Button>
         </Stack>
       </Drawer>
+
+
       <AppBar position="sticky">
         <StyledToolBar>
           <Typography variant="h3" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
@@ -106,13 +108,13 @@ export default function TemporaryDrawer() {
       </AppBar>
 
 
-      <Stack direction="row">
-        <Box flex={2.7} backgroundColor="black" sx={{ margin: 0, padding: 0 }}>
-        <Container sx={{ position: 'relative', padding: '0', margin: '0', height: '90vh' }}>
+      <Stack direction="row"  sx={{ border: '9px solid black' ,borderRadius: '8px' }}>
+        <Box flex={2.7} backgroundColor="yellow" sx={{ margin: 0, padding: 0 }}>
+        {/* <Container sx={{ position: 'relative', padding: '0', margin: '0' }}> */}
       <Carousel
         style={{
           width: '100%',
-          height: '100%',
+          height: '668px',
           overflow: 'hidden',
           cursor: 'pointer',
         }}
@@ -149,8 +151,8 @@ export default function TemporaryDrawer() {
         alignItems="center"
         justifyContent="center"
         position="absolute"
-        top="30%"
-        left="35%"
+        top="35%"
+        left="25%"
         transform="translate(-50%, -50%)"
         bgcolor="rgba(255, 255, 255, 0.8)"
         borderRadius="8px"
@@ -176,7 +178,8 @@ export default function TemporaryDrawer() {
           Search
         </Button>
       </Stack>
-    </Container>
+
+    {/* </Container> */}
         </Box>
 
 
@@ -187,8 +190,10 @@ export default function TemporaryDrawer() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        width:'100%',
+       height:'668px',
         backgroundImage: `url(${Image2})`,
-        // backgroundRepeat: 'no-repeat',
+        border:"10px solid grey",
         backgroundSize: 'cover',
         backgroundColor: 'rgba(255, 255, 255, 0.8)', // Adjust the alpha value for transparency
         color: 'black', // Set the text color to contrast with the background
@@ -200,6 +205,7 @@ export default function TemporaryDrawer() {
         bgcolor="rgba(255, 255, 255, 0.6)"
         borderRadius="8px"
         p={3}
+        sx={{height:"800px", overflow:'scroll'}}
         >
       <Typography variant='h3'>Filter by Ingredient Available</Typography>
       <Typography variant='h4'>Enter the Ingredient:</Typography>
@@ -209,9 +215,6 @@ export default function TemporaryDrawer() {
       <Button>Find</Button>
       </Stack>
     </Box>
-
-
-
       </Stack>
     </div>
   );

@@ -7,7 +7,7 @@ import CarouselCaption from 'react-bootstrap/esm/CarouselCaption';
 
 function Rightside() {
   return (  
-    <Carousel data-bs-theme="dark" style={{  position: "absolute",left:'0px', margin:'10px' }}>
+    <Carousel data-bs-theme="dark" style={{  position: "absolute",left:'0px', margin:'10px', overflow: 'hidden' }}>
       <Carousel.Item>
         <img style={{ width: "100%", height: "auto", borderRadius: "20px" }}
           src={Image}

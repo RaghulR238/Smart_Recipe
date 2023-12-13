@@ -6,12 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import Render1 from './page2/Render';
 import RoundContainer from './page2/signup';
 import TemporaryDrawer from './filterpage.js/leftfilter';
+import Up from './upload.js/up';
+import Result from './result.js/result';
+import Output from './output.js/output';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
-   <TemporaryDrawer/>
- 
+   // <TemporaryDrawer/>
+   // <App/>
+   // <Up/>
+//  <Result/>
+<Output/>
 );
 
 // If you want to start measuring performance in your app, pass a function
