@@ -1,12 +1,15 @@
 import { AppBar, Box, Button, Card, CardContent, CardMedia, Checkbox, Drawer, FormControl, FormControlLabel, FormLabel, Grid, InputBase, InputLabel, MenuItem, Radio, RadioGroup, Rating, Select, Stack, TextField, Toolbar, Typography, styled } from '@mui/material';
 import * as React from 'react';
-
+import { useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import TuneSharpIcon from '@mui/icons-material/TuneSharp';
 import TimerSharpIcon from '@mui/icons-material/TimerSharp';
 import Image from './img1.jpg';
 import { TimerSharp } from '@mui/icons-material';
 import { HighlightOffRounded, OutdoorGrill } from '@mui/icons-material';
+import  { useState } from 'react'
+import axios from 'axios';
+
 
 const StyledToolBar = styled(Toolbar)({
   margin: '10px',
@@ -15,23 +18,87 @@ const StyledToolBar = styled(Toolbar)({
   alignItems: 'center',
 });
 
-const cards = Array.from({ length: 20 }, (_, i) => i + 1);
 
+
+
+let ar=[];
 export default function Result() {
+  const [title,setTitle]=useState([]);
+  const[rating,setRating]=useState(0);
+ 
+
+  //const apiKey1='b9277005ebf74f12b62510043e2869a5';
+const apiKey='4652d41224d74dbcb1ea92606a4e100f';
+
+
   const [state, setState] = React.useState({
     left: false,
   });
-
+  
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-
+    
     setState({ ...state, left: open });
   };
 
-  return (
-    <div>
+  const[inputvalue,setinputvalue]=useState('');
+  const handleChange=(event)=>{
+    setinputvalue(event.target.value);
+  }
+  const handleKeyPress = (event) => {
+    if(event.key==='Enter')
+    {
+    //console.log(inputvalue);
+    fetchData();
+    }
+  }
+
+  
+
+const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${inputvalue}&addRecipeInformation=true&apiKey=${apiKey}`);
+  
+        ar=response.data;
+        console.log(response.data);
+        console.log(response.data);
+        
+        setTitle(response.data.results);
+      } catch (error) {
+        // Handle errors
+        console.error('Error fetching data:', error);
+      }
+    };
+function set(s)
+{
+  console.log(typeof(s)+" "+s);
+if(s<25)
+{
+  return 1;
+}
+else if(s<50)
+{
+  return 2;
+}
+else if(s<75)
+{
+  return 3;
+}
+else if(s<80)
+{
+  return 3;
+}
+else 
+{
+  console.log("wetaewr");
+  return 5;
+}
+}
+
+return (
+  <div>
       <Drawer anchor="left" open={state.left} onClose={toggleDrawer(false)}>
         <HighlightOffRounded onClick={toggleDrawer(false)} sx={{ fontSize: '55px', margin: '20px 0px 20px 0px' }} />
         <Stack sx={{ alignItems: 'center', padding: '20px', border: '9px solid black' }}>
@@ -85,6 +152,9 @@ export default function Result() {
           </Typography>
           <InputBase
             placeholder="Enter your search"
+            value={inputvalue}
+            onChange={handleChange}
+            onKeyPress={handleKeyPress}
             sx={{
               backgroundColor: 'white',
               padding: '0.5rem',
@@ -104,7 +174,7 @@ export default function Result() {
 
       <Stack flex="row" sx={{ padding: '20px' }}>
         <Grid container spacing={4}>
-          {cards.map((card) => (
+          {title.map((card) => (
             <Grid item key={card} xs={12} sm={6} md={4}>
               <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardMedia
@@ -113,16 +183,22 @@ export default function Result() {
                     // 16:9
                     pt: '56.25%',
                   }}
-                  image={Image}
+                  image={card.image}
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Chicken Wings
+                    {card.title}
                   </Typography>
-                  <Typography sx={{ paddingBottom: '20px', paddingTop: '20px' }}>
-                    sfkgnjis sgisrgw gbyu hbguie bfuy uybs
+                  <Typography sx={{ paddingBottom: '10px', paddingTop: '10px' }}>
+                    CUISINES:{card.cuisines[0]}
                   </Typography>
-                  <Rating name="half-rating-read" defaultValue={5} size="large" precision={0.5} readOnly />
+                  <Typography sx={{ paddingBottom: '10px', paddingTop: '10px' }}>
+                    PRICE PER SERVING:{card.pricePerServing}
+                  </Typography>
+                  <Typography sx={{ paddingBottom: '10px', paddingTop: '10px' }}>
+                    HEALTH SCORE:{card.healthScore}
+                  </Typography>
+                  <Rating name="half-rating-read" defaultValue={set(card.spoonacularScore)} size="large"  readOnly />
                   <Box
                     sx={{
                       display: 'flex',
@@ -132,7 +208,7 @@ export default function Result() {
                     }}
                   >
                     <TimerSharpIcon sx={{ marginLeft: 'auto' }} />
-                    <Typography variant="body2">20min</Typography>
+                    <Typography variant="body2">{card.readyInMinutes}min</Typography>
                   </Box>
                 </CardContent>
               </Card>

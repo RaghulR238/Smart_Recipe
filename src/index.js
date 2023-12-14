@@ -16,8 +16,9 @@ root.render(
    // <TemporaryDrawer/>
    // <App/>
    // <Up/>
-//  <Result/>
-<Output/>
+ <Result/>
+
+
 );
 
 // If you want to start measuring performance in your app, pass a function
