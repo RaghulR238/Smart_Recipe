@@ -29,7 +29,7 @@ export default function Result() {
 
   //const apiKey1='b9277005ebf74f12b62510043e2869a5';
 const apiKey='4652d41224d74dbcb1ea92606a4e100f';
-
+//const apiKey3='b3a6549e3e4142e6a9a8219944003f85';
 
   const [state, setState] = React.useState({
     left: false,
@@ -59,13 +59,13 @@ const apiKey='4652d41224d74dbcb1ea92606a4e100f';
 
 const fetchData = async () => {
       try {
-        const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${inputvalue}&addRecipeInformation=true&apiKey=${apiKey}`);
+        // const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${inputvalue}&addRecipeInformation=true&apiKey=${apiKey}`);
   
-        ar=response.data;
-        console.log(response.data);
-        console.log(response.data);
+        // ar=response.data;
+        // console.log(response.data);
+        // console.log(response.data);
         
-        setTitle(response.data.results);
+        // setTitle(response.data.results);
       } catch (error) {
         // Handle errors
         console.error('Error fetching data:', error);
