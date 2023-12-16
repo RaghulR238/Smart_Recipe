@@ -3,6 +3,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import Drawer from '@mui/material/Drawer';
 import OutdoorGrillIcon from '@mui/icons-material/OutdoorGrill';
 import { Stack, color } from '@mui/system';
+import I1 from './i1.jpg';
+import I2 from './i2.jpg';
+import I3 from './i3.jpg';
 import {
   Button,
   InputLabel,
@@ -122,26 +125,26 @@ export default function TemporaryDrawer() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src={Image}
+            src={I1}
             alt="First slide"
-            style={{ objectFit: 'cover', height: '100%' }}
+            style={{ objectFit: 'cover', height: '668px' }}
           />
           
         </Carousel.Item>
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src={Image}
+            src={I2}
             alt="First slide"
-            style={{ objectFit: 'cover', height: '100%' }}
+            style={{ objectFit: 'cover', height: '668px' }}
           />
           
         </Carousel.Item><Carousel.Item>
           <img
             className="d-block w-100"
-            src={Image}
+            src={I3}
             alt="First slide"
-            style={{ objectFit: 'cover', height: '100%' }}
+            style={{ objectFit: 'cover', height: '668px' }}
           />
          
         </Carousel.Item>

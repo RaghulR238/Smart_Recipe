@@ -27,7 +27,7 @@ export default function Result() {
   const[rating,setRating]=useState(0);
  
 
-  //const apiKey1='b9277005ebf74f12b62510043e2869a5';
+  const apiKey1='b9277005ebf74f12b62510043e2869a5';
 const apiKey='4652d41224d74dbcb1ea92606a4e100f';
 //const apiKey3='b3a6549e3e4142e6a9a8219944003f85';
 
@@ -59,13 +59,13 @@ const apiKey='4652d41224d74dbcb1ea92606a4e100f';
 
 const fetchData = async () => {
       try {
-        // const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${inputvalue}&addRecipeInformation=true&apiKey=${apiKey}`);
+        const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${inputvalue}&addRecipeInformation=true&apiKey=${apiKey1}`);
   
-        // ar=response.data;
-        // console.log(response.data);
-        // console.log(response.data);
+        ar=response.data;
+        console.log(response.data);
+        console.log(response.data);
         
-        // setTitle(response.data.results);
+        setTitle(response.data.results);
       } catch (error) {
         // Handle errors
         console.error('Error fetching data:', error);
@@ -176,15 +176,16 @@ return (
         <Grid container spacing={4}>
           {title.map((card) => (
             <Grid item key={card} xs={12} sm={6} md={4}>
-              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <CardMedia
+              <Card sx={{ height: '500px', display: 'flex', flexDirection: 'column' }}>
+              <CardMedia
                   component="div"
                   sx={{
-                    // 16:9
-                    pt: '56.25%',
+                    marginLeft:"10px",
+                    marginTop:"10px",
+                   width:'300px',
+                   height:"300px"
                   }}
-                  image={card.image}
-                />
+                ><img src={card.image} alt={title} style={{ width: '400px', height: '300px' }} /></CardMedia>
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
                     {card.title}

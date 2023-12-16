@@ -14,11 +14,11 @@ import Final from './Final_page/final';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
-  //  <TemporaryDrawer/>
+   <TemporaryDrawer/>
   //  <App/>
-   // <Up/>
+  //  <Up/>
 //  <Result/>
- <Final/> 
+//  <Final/> 
 
 );
 

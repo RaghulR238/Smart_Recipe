@@ -1,5 +1,5 @@
 import { CardMedia, Typography,Stack, Button, Grid, CardContent } from '@mui/material'
-import { Container} from '@mui/system'
+import { Box, Container} from '@mui/system'
 import React from 'react'
 import Image from './img1.jpg'
 import { useState } from 'react'
@@ -27,7 +27,7 @@ const apiKey1 = 'b9277005ebf74f12b62510043e2869a5';
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=burger&cuisine=italian&instructionsRequired=true&fillIngredients=true&addRecipeInformation=true&titleMatch=pasta&apiKey=${apiKey1}`);
+      const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=fish&cuisine=italian&instructionsRequired=true&fillIngredients=true&addRecipeInformation=true&apiKey=${apiKey1}`);
       
       console.log(response.data);
       console.log(response.data.results[0].title);
@@ -51,38 +51,42 @@ useEffect(() => {
 
 
         return (
-            <>
-        {/* <Button onClick={fetchData}>Search</Button> */}
-      <Typography variant='h3'>
-        Title:{title.title}
+            <Container>
+        
+      <Typography variant='h3' sx={{ margin:'0px 15px 15px 15px'}}>
+        {title.title}
       </Typography>
             <Container>
         
-        <CardMedia
-        sx={{ height:'900px' }}
-        image={title.image}
-        title="green iguana"
-      />
-      <Stack direction='column' >
-      <Typography variant=''>
+            <CardMedia
+                  component="div"
+                  sx={{
+                    margin:'0px 15px 15px 15px',
+          
+                   width:'600px',
+                   height:"600px"
+                  }}
+                ><img src={title.image} alt={title} style={{ width: '600px', height: '600px' }} /></CardMedia>
+      <Box direction='column' sx={{backgroundColor:'bisque', padding:"15px",margin:"15px"}}>
+      <Typography variant='h4' >
         Servings:{title.servings}
       </Typography>
-      <Typography variant=''>
+      <Typography variant='h4'>
         Health Score:{title.healthScore}
       </Typography>
-      <Typography variant=''>
+      <Typography variant='h4'>
         Price Per Savings:{title.pricePerServing}
       </Typography>
-      <Typography variant=''>
+      <Typography variant='h4'>
         {/* Cuisines:{title.cuisines[]} */}
       </Typography>
 {
     title.vegetariant?(
-        <Typography>veg</Typography>
-    ):(<Typography>Non veg</Typography>)
+        <Typography variant='h4'>veg</Typography>
+    ):(<Typography variant='h4'>Non veg</Typography>)
 }
       
-      </Stack>
+      </Box>
     
       <Stack direction='row'>
       <Grid container spacing={4}>
@@ -118,10 +122,10 @@ useEffect(() => {
           ))}
         </Grid>
       </Stack>
-      <Typography>
+      <Stack sx={{border:'black solid 3px'}}>
+      <Typography variant='h3'sx={{ margin:'0px 15px 15px 15px'}}>
         DIRECTIONS:
       </Typography>
-      <Stack>
   {title.analyzedInstructions &&
     title.analyzedInstructions.map((item, index) => (
       <div key={index}>
@@ -138,17 +142,20 @@ useEffect(() => {
 
 
 
+    <Stack sx={{ margin:'0px 15px 15px 15px',border:'black solid 3px'}}>
+      <Typography variant='h3' >
+        Nutrient:
+      </Typography>
+    <div dangerouslySetInnerHTML={{ __html: nutrient }}/>
+    </Stack>
+      <Stack sx={{ margin:'0px 15px 15px 15px',border:'black solid 3px'}}>
       <Typography>
   Summary:
   <div dangerouslySetInnerHTML={{ __html: title.summary }} />
 </Typography>
-    <Stack>
-
-    <div dangerouslySetInnerHTML={{ __html: nutrient }}/>
-    </Stack>
-      
+</Stack>
     </Container>
       
-</>      
+</Container>      
   )
 }
