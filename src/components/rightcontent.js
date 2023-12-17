@@ -9,7 +9,7 @@ import I2 from './i2.jpg';
 import I3 from './i3.jpg';
 function Rightside() {
   return (  
-    <Carousel data-bs-theme="dark" style={{  position: "absolute",left:'0px', margin:'10px', overflow: 'hidden' }}>
+    <Carousel data-bs-theme="dark" style={{  position: "absolute",left:'0px', margin:'0px 10px 10px 10px', overflow: 'hidden' }}>
       <Carousel.Item>
         <img style={{ width: "100%", height: "auto", borderRadius: "20px" }}
           src={I1}

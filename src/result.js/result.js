@@ -9,7 +9,9 @@ import { TimerSharp } from '@mui/icons-material';
 import { HighlightOffRounded, OutdoorGrill } from '@mui/icons-material';
 import  { useState } from 'react'
 import axios from 'axios';
-
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+import OutdoorGrillIcon from '@mui/icons-material/OutdoorGrill';
+import './card2.css'
 
 const StyledToolBar = styled(Toolbar)({
   margin: '10px',
@@ -59,7 +61,7 @@ const apiKey='4652d41224d74dbcb1ea92606a4e100f';
 
 const fetchData = async () => {
       try {
-        const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${inputvalue}&addRecipeInformation=true&apiKey=${apiKey1}`);
+        const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${inputvalue}&addRecipeInformation=true&apiKey=${apiKey}`);
   
         ar=response.data;
         console.log(response.data);
@@ -100,16 +102,19 @@ else
 return (
   <div>
       <Drawer anchor="left" open={state.left} onClose={toggleDrawer(false)}>
-        <HighlightOffRounded onClick={toggleDrawer(false)} sx={{ fontSize: '55px', margin: '20px 0px 20px 0px' }} />
-        <Stack sx={{ alignItems: 'center', padding: '20px', border: '9px solid black' }}>
-          <OutdoorGrill />
+        <HighlightOffRoundedIcon onClick={toggleDrawer(false)} sx={{ fontSize: '55px' , margin:'20px 0px 20px 0px'}} />
+        <Stack sx={{ alignItems: 'center', padding: '10px',border: '9px solid black' ,backgroundColor:'tomato'}}>
+          <OutdoorGrillIcon />
+          <Typography variant="h2" component="div" sx={{ fontFamily: '"Brush Script MT", cursive',flexGrow: 1, textAlign: 'center' }}>
+            Filter
+          </Typography>
           <TextField
             label="Cooking Time"
-            sx={{ backgroundColor: 'white', margin: '20px 0px 20px 0px' }}
+            sx={{ color:'white', margin:'20px 0px 20px 0px'}}
             placeholder="Enter user name"
             fullWidth
-          />
-          <FormControl fullWidth sx={{ m: 1, minWidth: 120, margin: '20px 0px 20px 0px' }}>
+          ></TextField>
+          <FormControl fullWidth sx={{color:'black', m: 1, minWidth: 120, margin:'20px 0px 20px 0px' }}>
             <InputLabel id="demo-simple-select-label">Ratings</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select">
               <MenuItem value={10}>5</MenuItem>
@@ -117,7 +122,7 @@ return (
               <MenuItem value={30}>3+</MenuItem>
             </Select>
           </FormControl>
-          <FormControl fullWidth sx={{ m: 1, minWidth: 120, margin: '20px 0px 20px 0px' }}>
+          <FormControl fullWidth sx={{color:'black', m: 1, minWidth: 120 , margin:'20px 0px 20px 0px'}}>
             <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select">
               <MenuItem value={10}>Hard</MenuItem>
@@ -125,9 +130,13 @@ return (
               <MenuItem value={30}>Easy</MenuItem>
             </Select>
           </FormControl>
-          <FormControl sx={{ margin: '20px 0px 20px 0px' }}>
+          <FormControl sx={{ color:'black',margin:'20px 0px 20px 0px'}}>
             <FormLabel id="demo-row-radio-buttons-group-label">Food Type</FormLabel>
-            <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+            >
               <FormControlLabel value="veg" control={<Radio />} label="veg" />
               <FormControlLabel value="non-veg" control={<Radio />} label="non-veg" />
             </RadioGroup>
@@ -137,17 +146,16 @@ return (
             control={<Checkbox />}
             label="Pure Hygienic"
             labelPlacement="start"
-            sx={{ margin: '20px 0px 20px 0px' }}
+            sx={{ color:'black',margin:'20px 0px 20px 0px'}}
           />
-          <Button variant="outlined" sx={{ margin: '20px 0px 20px 0px' }}>
-            Submit
-          </Button>
+          <Button variant="outlined" sx={{backgroundColor:'black' ,color:'white', margin:'20px 0px 20px 0px', fontFamily:'"Brush Script MT", cursive',fontSize:'30px'}}>
+            SUBMIT</Button>
         </Stack>
       </Drawer>
 
-      <AppBar position="sticky">
+      <AppBar position="sticky" sx={{backgroundColor:'tomato'}}>
         <StyledToolBar>
-          <Typography variant="h3" sx={{ flexGrow: 1, textAlign: 'left' }}>
+          <Typography variant="h2" sx={{fontFamily: '"Brush Script MT", cursive', flexGrow: 1, textAlign: 'left' }}>
             Smart Recipe
           </Typography>
           <InputBase
@@ -164,7 +172,7 @@ return (
             }}
             startAdornment={<SearchIcon />}
             endAdornment={
-              <Button sx={{ width: '50px' }} variant="contained">
+              <Button sx={{ width: '50px' }} variant="contained" onClick={toggleDrawer(true)}>
                 <TuneSharpIcon onClick={toggleDrawer(true)} />
               </Button>
             }
@@ -172,24 +180,26 @@ return (
         </StyledToolBar>
       </AppBar>
 
-      <Stack flex="row" sx={{ padding: '20px' }}>
+      <Stack flex="row" sx={{ padding: '20px',backgroundColor:'white'}}>
         <Grid container spacing={4}>
           {title.map((card) => (
             <Grid item key={card} xs={12} sm={6} md={4}>
-              <Card sx={{ height: '500px', display: 'flex', flexDirection: 'column' }}>
+              <div class="card">
+<div class="card__content">
+              <Card sx={{height: '550px',width:'433px',borderRadius: '15px', display: 'flex', flexDirection: 'column'}}>
               <CardMedia
                   component="div"
                   sx={{
-                    marginLeft:"10px",
-                    marginTop:"10px",
+                    marginLeft:"0px",
+                    marginTop:"0px",
                    width:'300px',
                    height:"300px"
                   }}
-                ><img src={card.image} alt={title} style={{ width: '400px', height: '300px' }} /></CardMedia>
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {card.title}
-                  </Typography>
+                ><img src={card.image} alt={title} style={{ width: '500px', height: '300px' }} /></CardMedia>
+                <CardContent sx={{ flexGrow: '1' }}>
+                <Typography variant="h3" component="div" sx={{ fontFamily: '"Brush Script MT", cursive', textAlign: 'left' }}>
+            {card.title}
+          </Typography>
                   <Typography sx={{ paddingBottom: '10px', paddingTop: '10px' }}>
                     CUISINES:{card.cuisines[0]}
                   </Typography>
@@ -204,7 +214,7 @@ return (
                     sx={{
                       display: 'flex',
                       justifyContent: 'space-between', // Align items with space between
-                      marginTop: '20px',
+                      marginTop: '-28px',
                       textAlign: 'right', // Align text to the right
                     }}
                   >
@@ -213,6 +223,8 @@ return (
                   </Box>
                 </CardContent>
               </Card>
+            </div>
+            </div>
             </Grid>
           ))}
         </Grid>

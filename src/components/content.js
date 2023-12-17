@@ -5,7 +5,7 @@ import Con from './Card';
 const Content=()=>{
     return(
         <>
-        <Box backgroundColor='blueviolet' flex={1} >
+        <Box backgroundColor='white' flex={1} marginLeft={'0px'}>
         <Con/>
         </Box>
         </>

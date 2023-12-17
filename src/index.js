@@ -8,14 +8,14 @@ import RoundContainer from './page2/signup';
 import TemporaryDrawer from './filterpage.js/leftfilter';
 import Up from './upload.js/up';
 import Result from './result.js/result';
-import Output from './output.js/output';
+
 import Final from './Final_page/final';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
-   <TemporaryDrawer/>
-  //  <App/>
+  //  <TemporaryDrawer/>
+   <App/>
   //  <Up/>
 //  <Result/>
 //  <Final/> 

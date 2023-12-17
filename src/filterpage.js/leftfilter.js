@@ -6,6 +6,7 @@ import { Stack, color } from '@mui/system';
 import I1 from './i1.jpg';
 import I2 from './i2.jpg';
 import I3 from './i3.jpg';
+import './filter.css';
 import {
   Button,
   InputLabel,
@@ -55,15 +56,18 @@ export default function TemporaryDrawer() {
     <div>
       <Drawer anchor="left" open={state.left} onClose={toggleDrawer(false)}>
         <HighlightOffRoundedIcon onClick={toggleDrawer(false)} sx={{ fontSize: '55px' , margin:'20px 0px 20px 0px'}} />
-        <Stack sx={{ alignItems: 'center', padding: '20px',border: '9px solid black' }}>
+        <Stack sx={{ alignItems: 'center', padding: '10px',border: '9px solid black' ,backgroundColor:'tomato'}}>
           <OutdoorGrillIcon />
+          <Typography variant="h2" component="div" sx={{ fontFamily: '"Brush Script MT", cursive',flexGrow: 1, textAlign: 'center' }}>
+            Filter
+          </Typography>
           <TextField
             label="Cooking Time"
-            sx={{ backgroundColor: 'white', margin:'20px 0px 20px 0px'}}
+            sx={{ color:'white', margin:'20px 0px 20px 0px'}}
             placeholder="Enter user name"
             fullWidth
           ></TextField>
-          <FormControl fullWidth sx={{ m: 1, minWidth: 120, margin:'20px 0px 20px 0px' }}>
+          <FormControl fullWidth sx={{color:'black', m: 1, minWidth: 120, margin:'20px 0px 20px 0px' }}>
             <InputLabel id="demo-simple-select-label">Ratings</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select">
               <MenuItem value={10}>5</MenuItem>
@@ -71,7 +75,7 @@ export default function TemporaryDrawer() {
               <MenuItem value={30}>3+</MenuItem>
             </Select>
           </FormControl>
-          <FormControl fullWidth sx={{ m: 1, minWidth: 120 , margin:'20px 0px 20px 0px'}}>
+          <FormControl fullWidth sx={{color:'black', m: 1, minWidth: 120 , margin:'20px 0px 20px 0px'}}>
             <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select">
               <MenuItem value={10}>Hard</MenuItem>
@@ -79,7 +83,7 @@ export default function TemporaryDrawer() {
               <MenuItem value={30}>Easy</MenuItem>
             </Select>
           </FormControl>
-          <FormControl sx={{ margin:'20px 0px 20px 0px'}}>
+          <FormControl sx={{ color:'black',margin:'20px 0px 20px 0px'}}>
             <FormLabel id="demo-row-radio-buttons-group-label">Food Type</FormLabel>
             <RadioGroup
               row
@@ -95,24 +99,26 @@ export default function TemporaryDrawer() {
             control={<Checkbox />}
             label="Pure Hygienic"
             labelPlacement="start"
-            sx={{ margin:'20px 0px 20px 0px'}}
+            sx={{ color:'black',margin:'20px 0px 20px 0px'}}
           />
-          <Button variant="outlined" sx={{ margin:'20px 0px 20px 0px'}}>Submit</Button>
+          <Button variant="outlined" sx={{backgroundColor:'black' ,color:'white', margin:'20px 0px 20px 0px', fontFamily:'"Brush Script MT", cursive',fontSize:'30px'}}>
+            SUBMIT</Button>
         </Stack>
       </Drawer>
 
 
-      <AppBar position="sticky">
+      <AppBar position="sticky" sx={{backgroundColor:'tomato'}}>
         <StyledToolBar>
-          <Typography variant="h3" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+          <Typography variant="h2" component="div" sx={{ fontFamily: '"Brush Script MT", cursive',flexGrow: 1, textAlign: 'center' }}>
             Find a Recipe
           </Typography>
+          
         </StyledToolBar>
       </AppBar>
 
 
       <Stack direction="row"  sx={{ border: '9px solid black' ,borderRadius: '8px' }}>
-        <Box flex={2.7} backgroundColor="yellow" sx={{ margin: 0, padding: 0 }}>
+        <Box flex={2.7} sx={{ margin: 0, padding: 0 }}>
         {/* <Container sx={{ position: 'relative', padding: '0', margin: '0' }}> */}
       <Carousel
         style={{
@@ -163,10 +169,10 @@ export default function TemporaryDrawer() {
         boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
         
       >
-        <Typography variant="h4" sx={{ marginBottom: '1rem' }}>
+        {/* <Typography variant="h4" sx={{ marginBottom: '1rem' }}>
           Search Your Favorite
-        </Typography>
-        <InputBase
+        </Typography> */}
+        {/* <InputBase
           placeholder="Enter your search"
           sx={{
             backgroundColor: 'white',
@@ -179,7 +185,21 @@ export default function TemporaryDrawer() {
         />
         <Button variant="contained" sx={{ marginTop: '1rem' }}>
           Search
-        </Button>
+        </Button> */}
+        <form action="" class="container">
+  <div class="input-container">
+      <div class="input-content">
+          <div class="input-dist">
+           <span id="SubscribeTXT">Steam Here</span>
+              <div class="input-type">
+                  <input placeholder="Food" required="" type="text" class="input-is"/>  
+                   
+              </div>
+              <button>Serve</button>
+          </div>
+      </div>
+  </div>
+</form>
       </Stack>
 
     {/* </Container> */}
@@ -196,7 +216,7 @@ export default function TemporaryDrawer() {
         width:'100%',
        height:'668px',
         backgroundImage: `url(${Image2})`,
-        border:"10px solid grey",
+    
         backgroundSize: 'cover',
         backgroundColor: 'rgba(255, 255, 255, 0.8)', // Adjust the alpha value for transparency
         color: 'black', // Set the text color to contrast with the background
@@ -210,8 +230,8 @@ export default function TemporaryDrawer() {
         p={3}
         sx={{height:"800px", overflow:'scroll'}}
         >
-      <Typography variant='h3'>Filter by Ingredient Available</Typography>
-      <Typography variant='h4'>Enter the Ingredient:</Typography>
+      <Typography variant='h3' sx={{fontFamily: '"Brush Script MT", cursive',color:'red'}}>Filter by Ingredient Available</Typography>
+      <Typography variant='h4' sx={{fontFamily: '"Brush Script MT", cursive'}}>Enter the Ingredient:</Typography>
       {count.map((c) => (
         <TextField key={c} fullWidth label={`Ingredient${c}`} id={`Ingredient${c}`} />
       ))}

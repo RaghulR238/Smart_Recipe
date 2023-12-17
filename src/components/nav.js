@@ -31,10 +31,11 @@ const ButtonStyle2=styled(Button)(
 )
 const Navbar=()=>{
     return(
-        <AppBar position='sticky'>
+        <AppBar position='sticky' sx={{backgroundColor:'tomato'}}>
             <StyledToolBar>
-                <Typography variant='h4'> Smart Recipies
-                </Typography>
+            <Typography variant="h3" sx={{ fontFamily: '"Brush Script MT", cursive' ,color:'black'}}>
+          Smart Recipe
+        </Typography>
                 
 
         <FormControl fullWidth sx={{ m: 1,  minWidth: 120 }}>

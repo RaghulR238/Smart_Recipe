@@ -1,50 +1,38 @@
 import React from "react";
-import { Card, CardContent, CardMedia, Grid, Typography, Button, Rating, Container } from '@mui/material';
+import { Card, CardContent, CardMedia, Grid, Typography, Button, Rating, Container, Box } from '@mui/material';
 import TimerIcon from '@mui/icons-material/Timer';
 import Image from './img1.jpg';
-
+import './card.css';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import { borderRadius } from "@mui/system";
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const Con = () => {
   return (
-    <Container
-      style={{
-        backgroundColor:'black',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '100vh',
-        overflow: 'hidden',  // Hide any overflow from the background
-      }}
-    >
-      <Container
-        sx={{
-          py: 8,
-          overflowY: 'auto',
-          maxHeight: 'calc(100vh - 64px)',
-          '::-webkit-scrollbar': {
-            width: '12px',
-          },
-          '::-webkit-scrollbar-track': {
-            background: 'transparent',
-          },
-          '::-webkit-scrollbar-thumb': {
-            background: '#888',
-            borderRadius: '6px',
-          },
-        }}
+    
+      <Box
+        sx={{height:"610px", overflowY:'scroll', padding:'50px' }}
       >
+        <Typography variant="h3" sx={{ fontFamily: '"Brush Script MT", cursive',textAlign:'center' ,color:'red', marginBottom:'10px'}}>
+          LATEST
+        </Typography>
         <Grid container spacing={4}>
           {cards.map((card) => (
             <Grid item key={card} xs={30} sm={6} md={4}>
-              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <CardMedia
+              <div class="cardc">
+<div class="card__contentc">
+
+
+              <Card sx={{ height:'385px' ,width:'202px', display: 'flex', flexDirection: 'column',borderRadius:'15px' }}>
+              <CardMedia
                   component="div"
                   sx={{
-                    // 16:9
-                    pt: '56.25%',
+                   
+                   width:'210px',
+                   height:"200px"
                   }}
-                  image={Image}
-                />
+                ><img src={Image} style={{ width:'202px',height:'202px' }} /></CardMedia>
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant='h5' component="h2">
                     Chicken Wings
@@ -52,15 +40,17 @@ const Con = () => {
                   <Typography>
                     sfkgnjis sgisrgw gbyu hbguie bfuy uybs
                   </Typography>
-                  <Rating name="half-rating-read" defaultValue={2} size="small" precision={0.5} readOnly />
+                  <Rating name="half-rating-read" defaultValue={2} size="large" precision={0.5} readOnly />
                   <Button variant="" startIcon={<TimerIcon />}>20min</Button>
                 </CardContent>
               </Card>
+              </div>
+              </div>
             </Grid>
           ))}
         </Grid>
-      </Container>
-    </Container>
+      </Box>
+    
   );
 };
 
