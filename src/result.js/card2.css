@@ -1,4 +1,4 @@
-.card {
+/* .card {
     width: 450px;
     height: 568px;
     border-radius: 20px;
@@ -18,10 +18,10 @@
   }
   
   /* Hide scrollbar for IE, Edge, and Firefox */
-  body {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
+  /* body {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  }  */
 
 
   /* card2.css */

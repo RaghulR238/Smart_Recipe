@@ -1,5 +1,5 @@
 import { CardMedia, Typography,Stack, Button, Grid, CardContent, AppBar, InputBase, styled, Toolbar, Rating } from '@mui/material'
-import { Box, Container} from '@mui/system'
+import { Box, Container, color} from '@mui/system'
 import React from 'react'
 import Image from './img1.jpg'
 import { useState } from 'react'
@@ -17,6 +17,17 @@ import SpaTwoToneIcon from '@mui/icons-material/SpaTwoTone';
 import MonetizationOnTwoToneIcon from '@mui/icons-material/MonetizationOnTwoTone';
 import FoodBankTwoToneIcon from '@mui/icons-material/FoodBankTwoTone';
 import TouchAppIcon from '@mui/icons-material/TouchApp';
+import { data } from './data'
+import Navbar from '../components/nav'
+import { BrowserRouter, Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import './fin.css'
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+import Footer from '../components/footer'
+import DontMiss from '../dontmiss/dontmiss'
+import Trending from '../trending/trending'
+
+//console.log(data);
+
 const StyledToolBar = styled(Toolbar)({
   margin: '10px',
   padding: '5px',
@@ -42,7 +53,7 @@ const useStyles2=styled(CardContent)({
 
 function set(s)
 {
-  console.log(typeof(s)+" "+s);
+  
 if(s<25)
 {
   return 1;
@@ -83,18 +94,20 @@ const [showPopup, setShowPopup] = useState(false);
     setShowPopup(!showPopup);
   };
 const apiKey1 = 'b9277005ebf74f12b62510043e2869a5';
+const location = useLocation();
+const recipeId = location.state.cardId;
 
 useEffect(() => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=fish&cuisine=italian&instructionsRequired=true&fillIngredients=true&addRecipeInformation=true&apiKey=${apikeymaja}`);
+
+      const response = await axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information?includeNutrition=false&apiKey=${apikeymaja}`);
       
       console.log(response.data);
-      console.log(response.data.results[0].title);
+      console.log(response.data.title);
 
-      setTitle(response.data.results[0]);
-      const recipeId = response.data.results[0].id;
+      setTitle(response.data);
 
       // Corrected the URL by adding '?' after 'nutritionLabel'
       const nutrient = await axios.get(`https://api.spoonacular.com/recipes/${recipeId}/nutritionLabel?apiKey=${apikeymaja}`);
@@ -113,25 +126,23 @@ useEffect(() => {
 
         return (
           <>
-            <AppBar position="sticky" sx={{backgroundColor:'tomato'}}>
-        <StyledToolBar>
-          <Typography variant="h2" sx={{fontFamily: '"Brush Script MT", cursive', flexGrow: 1, textAlign: 'left' }}>
-            Smart Recipe
-          </Typography>
-          
-          
-        </StyledToolBar>
-      </AppBar>
+           <Navbar/>
+           <div style={{height:'8px',backgroundColor:'#19e6e2',position: 'fixed', top: 'heightOfNavbarAbove', left: 0, right: 0, zIndex: 1000}}></div>
+
             <Container>
-              <Typography variant='h5' sx={{color:'blue',margin:'10px'}}>
-                Recipes/{title.sourceName}
+              <Typography variant='h5' sx={{color:'#4d79ff',marginTop:'30px'}}>
+                Recipes<span style={{color:'black'}}> / </span>{title.sourceName}
               </Typography>
-      <Typography variant='h2' sx={{ margin:'10px'}}>
-        {title.title}
-      </Typography>
-      <Rating name="half-rating-read" defaultValue={set(title.spoonacularScore)} size="large"  readOnly sx={{ margin:'10px'}} />
-        <div style={{margin:'10px' ,color:'red'}}>-------------------------------------------------------------------------------------------------------------------------------------------------------------------</div>
-        <Typography variant='h6' sx={{margin:'10px',color:'grey'}}>
+            <Typography  variant='h2' sx={{fontFamily:"'Mukta', sans-serif",fontWeight:'bold',marginTop:'20px'}}>
+                    {title.title}
+                  </Typography>
+      
+     
+      <Rating name="half-rating-read" defaultValue={set(title.spoonacularScore)} size="large"  readOnly sx={{ marginTop:'20px',color:'darkred'}} />
+    
+        
+        <div style={{marginTop:'10px' ,color:'grey'}}>--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</div>
+        <Typography variant='h6' sx={{marginTop:'10px',color:'grey'}}>
           "Welcome to the world of delicious possibilities! Our collection of recipes brings you a diverse array of culinary creations to suit every taste and occasion. From quick and easy weekday meals to impressive dishes for special gatherings, each recipe is crafted with care and designed to inspire your inner chef."
         </Typography>
         <Stack direction="row" spacing={2} sx={{ margin: '10px' }}>
@@ -144,49 +155,49 @@ useEffect(() => {
             <CardMedia
                   component="div"
                   sx={{
-                    margin:'0px 15px 15px 15px',
+                    marginTop:'20px',
           
                    width:'600px',
                    height:"600px"
                   }}
-                ><img src={title.image} alt={title} style={{ width: '600px', height: '600px' }} /></CardMedia>
-      <Stack direction='row' >
-      <Typography variant='h6' sx={{margin:'20px'}}>
-        <RamenDiningTwoToneIcon sx={{fontSize:'25px'}}/>
-         Ready Time:{title.servings}
+                ><img src={title.image} alt={title} style={{ width: '800px', height: '600px' }} /></CardMedia>
+      <Stack direction='row' sx={{marginTop:'30px'}}>
+      <Typography variant='h6' >
+        <RamenDiningTwoToneIcon sx={{fontSize:'25px', marginRight:'5px'}}/>
+          Ready Time:{title.servings}
       </Typography >
-      <Typography variant='h6' sx={{margin:'20px'}}>
-        <WatchLaterTwoToneIcon/>
+      <Typography variant='h6' sx={{marginLeft:'180px'}}>
+        <WatchLaterTwoToneIcon sx={{marginRight:'5px'}}/>
         Servings:{title.servings}
       </Typography>
-      <Typography variant='h6'sx={{margin:'20px'}}>
-        <SpaTwoToneIcon/>
+      <Typography variant='h6'sx={{marginLeft:'180px'}}>
+        <SpaTwoToneIcon sx={{marginRight:'5px'}}/>
         Health Score:{title.healthScore}
       </Typography>
-      <Typography variant='h6'sx={{margin:'20px'}}>
-        <MonetizationOnTwoToneIcon/>
+      </Stack>
+      <Stack direction='row' sx={{marginTop:'30px'}}>
+      <Typography variant='h6'>
+        <MonetizationOnTwoToneIcon sx={{marginRight:'5px'}}/>
         Price Per Savings:{title.pricePerServing}
       </Typography>
-      </Stack>
-      <Stack direction='row'>
       {
-        title.cuisines?(<Typography variant='h6' sx={{margin:'20px'}}><SoupKitchenTwoToneIcon/>Cuisine:{title.cuisines[0]}</Typography>):(<div>e</div>)
+          title.vegetariant?(
+              <Typography variant='h6' sx={{marginLeft:'85px'}}><FoodBankTwoToneIcon sx={{marginRight:'5px',marginBottom:'5px'}}/>Food Type:veg    </Typography>
+          ):(<Typography variant='h6' sx={{marginLeft:'85px'}}><FoodBankTwoToneIcon sx={{marginRight:'5px',marginBottom:'5px'}}/>Food Type:Non veg</Typography>)
       }
-{
-    title.vegetariant?(
-        <Typography variant='h6' sx={{margin:'20px'}}><FoodBankTwoToneIcon/>Food Type:veg</Typography>
-    ):(<Typography variant='h6' sx={{margin:'20px'}}><FoodBankTwoToneIcon/>Food Type:Non veg</Typography>)
-}
+      {
+        title.cuisines?(<Typography variant='h6' sx={{marginLeft:'110px'}}><SoupKitchenTwoToneIcon sx={{marginRight:'5px',marginBottom:'5px'}}/>Cuisine:{title.cuisines[0]}</Typography>):(<div>e</div>)
+      }
       
       </Stack>
-      <div style={{margin:'10px' ,color:'red'}}>-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</div>
-        <Typography variant='h2' sx={{fontFamily:'"Brush Script MT", cursive' ,margin:'10px', color:'blue'}}>
-          Ingredients
-        </Typography>
+      <div style={{marginTop:'10px' ,color:'grey'}}>---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</div>
+      <Typography  variant='h2' sx={{fontFamily:"'Mukta', sans-serif",fontWeight:'bold',marginTop:'20px'}}>
+                   Ingredient :
+                  </Typography>
       <Stack direction='row'>
       <Grid container spacing={4}>
-        {title.missedIngredients &&
-          title.missedIngredients.map((card) => (
+        {title.extendedIngredients &&
+          title.extendedIngredients.map((card) => (
             <Grid item key={card} xs={12} sm={6} md={4} >
               <useStyles1 sx={{height:'10px'}}>
                 <CardMedia
@@ -197,7 +208,7 @@ useEffect(() => {
                    width:'180px',
                    height:"180px"
                   }}
-                ><img src={card.image} alt={title} style={{ width: '150px', height: '150px' }} /></CardMedia>
+                ><img src={`https://spoonacular.com/cdn/ingredients_100x100/${card.image}`} alt={title} style={{ width: '150px', height: '150px' }} /></CardMedia>
                 <useStyles2 sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
                    Ingredients: {card.aisle}
@@ -217,7 +228,7 @@ useEffect(() => {
           ))}
         </Grid>
       </Stack>
-      <div style={{margin:'10px'}}>
+      <div style={{marginTop:'30px'}}>
       <div>
         <button onClick={handleTogglePopup}><TouchAppIcon/> Open Nutrient Table</button>
       </div>
@@ -226,27 +237,28 @@ useEffect(() => {
         <div
           style={{
             position: 'fixed',
-            top: '50%',
+            top: '60%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
             backgroundColor: '#f0f0f0',
-            padding: '20px',
+             padding: '20px',
             border: '1px solid #ccc',
             zIndex: 1000,
           }}
+          onClick={handleTogglePopup}
         >
-          
+          <HighlightOffRoundedIcon onClick={handleTogglePopup} sx={{ fontSize: '35px',color:'red' , margin:'10px 0px 0px 280px'}} />
           <div dangerouslySetInnerHTML={{ __html: nutrient }}/>
-          <button onClick={handleTogglePopup}>Close</button>
+          {/* <button onClick={handleTogglePopup}>Close</button> */}
         </div>
       )}
     </div>
 
 
-    <Typography variant='h2' sx={{fontFamily:'"Brush Script MT", cursive' ,margin:'10px', color:'blue'}}>
-          Directions
-        </Typography>
-      <Stack sx={{margin:'10px'}}>
+    <Typography  variant='h2' sx={{fontFamily:"'Mukta', sans-serif",fontWeight:'bold',marginTop:'20px'}}>
+                   Directions :
+                  </Typography>
+      <Stack sx={{marginTop:'20px'}}>
   {title.analyzedInstructions &&
     title.analyzedInstructions.map((item, index) => (
       <div key={index}>
@@ -264,16 +276,20 @@ useEffect(() => {
 
 
     
-<Typography variant='h2' sx={{fontFamily:'"Brush Script MT", cursive' ,margin:'10px', color:'blue'}}>
-          Summary
-        </Typography>    
+   <Typography  variant='h2' sx={{fontFamily:"'Mukta', sans-serif",fontWeight:'bold',marginTop:'20px'}}>
+                   Summary :
+                  </Typography>  
     
-  <div style={{fontSize:'25px', margin:'10px'}} dangerouslySetInnerHTML={{ __html: title.summary }} />
+  <div style={{fontSize:'20px', marginTop:'30px',textAlign:'justify'}} dangerouslySetInnerHTML={{ __html: title.summary }} />
 
 
+    <Typography  variant='h2' sx={{fontFamily:"'Mukta', sans-serif",fontWeight:'bold',marginTop:'20px'}}>
+                   Realted Dishes:
+                  </Typography>
+    <DontMiss/>
+    <Trending/>
     </Container>
-      
- 
+ <Footer/>
 </>  
   )
 }

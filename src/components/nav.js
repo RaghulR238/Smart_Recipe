@@ -1,97 +1,324 @@
-import { AppBar, Button, FormControl, InputLabel, MenuItem, Select, Toolbar, Typography, experimentalStyled, styled } from '@mui/material';
-import React from 'react';
-import IconButton from '@mui/material/IconButton';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import SearchIcon from '@mui/icons-material/Search';
-import PublishIcon from '@mui/icons-material/Publish';
-import { Box } from '@mui/system';
-const StyledToolBar=styled(Toolbar)(
-    {
-        display:'flex',
-        justifyContent:'space-between',
-        margin:'10px',
-        padding:'5px'
+import {
+  AppBar,
+  Avatar,
+  Button,
+  FormControl,
+  InputLabel,
+  Menu,
+  MenuItem,
+  Select,
+  Toolbar,
+  Typography,
+  experimentalStyled,
+  styled,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import IconButton from "@mui/material/IconButton";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import SearchIcon from "@mui/icons-material/Search";
+import PublishIcon from "@mui/icons-material/Publish";
+import { Box } from "@mui/system";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./app.css";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import logo from "./logo.png";
+import { useLoginData } from "../loginDataContext";
+import axios from "axios";
+const StyledToolBar = styled(Toolbar)({
+  display: "flex",
+  justifyContent: "space-between",
+  margin: "10px",
+  padding: "5px",
+});
+const ButtonStyle = styled(Button)({
+  padding: "20px",
+  backgroundColor: "blue",
+  width: "100px",
+  margin: "15px",
+});
+const ButtonStyle2 = styled(Button)({
+  padding: "20px",
+  color: "white",
+  width: "500px",
+  margin: "15px",
+});
+
+let count = 0;
+
+const Navbar = () => {
+  const { loginData, updateLoginData } = useLoginData();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleMouseEnter = () => {
+    setDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setDropdownOpen(false);
+  };
+
+  const navigate = useNavigate();
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const handleLogOut = async () => {
+    try {
+      const res = await axios.post("http://localhost:3002/api/auth/logout", {
+        withCredentials: true,
+      });
+      localStorage.setItem("currentUser", null);
+      navigate("/");
+      updateLoginData(null);
+      //console.log("Data is", res.data);
+    } catch (err) {
+      console.log(err);
     }
-)
-const ButtonStyle=styled(Button)(
-    {
-        padding:'20px',
-        backgroundColor:'blue',
-        width:'100px',
-        margin:'15px'
-    }
-)
-const ButtonStyle2=styled(Button)(
-    {
-        padding:'20px',
-        color:'white',
-        width:'500px',
-        margin:'15px'
-    }
-)
-const Navbar=()=>{
-    return(
-        <AppBar position='sticky' sx={{backgroundColor:'tomato'}}>
-            <StyledToolBar>
-            <Typography variant="h3" sx={{ fontFamily: '"Brush Script MT", cursive' ,color:'black'}}>
-          Smart Recipe
+  };
+  
+  return (
+    <AppBar
+      position="sticky"
+      sx={{ cursor: "pointer", backgroundColor: "black" }}
+    >
+      <StyledToolBar>
+        <img
+          src={logo}
+          style={{ height: "100px", width: "100px", borderRadius: "50%" }}
+        ></img>
+        <Typography
+          onClick={() => navigate("/")}
+          variant="h2"
+          sx={{
+            whiteSpace: "nowrap",
+            backgroundColor: "black",
+            fontFamily: "'Pacifico', cursive",
+            fontWeight: "bold",
+            color: "white",
+            marginBottom: "10px",
+          }}
+        >
+          Smart Recipe <span style={{ color: "yellow" }}>.</span>
         </Typography>
-                
+        <div
+          className="dropdown-container"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <h6 className="dropdown-button" style={{ fontWeight: "bold" }}>
+            RECIPES
+          </h6>
+          {isDropdownOpen && (
+            <div className="dropdown-content">
+              <h5 className="hh">BreakFast Recipes</h5>
+              <h5 className="hh">Lunch Recipes</h5>
+              <h5 className="hh">Dinner Recipes</h5>
+              <h5 className="hh">Dessert Recipes</h5>
+              <h5 className="hh">Quick & Easy Recipes</h5>
+            </div>
+          )}
+        </div>
+        <div
+          className="dropdown-container"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <h6 className="dropdown-button" style={{ fontWeight: "bold" }}>
+            POPULAR
+          </h6>
+          {isDropdownOpen && (
+            <div className="dropdown-content">
+              <h4 className="hh">Trending Now</h4>
+              <h4 className="hh">Chili Recipes</h4>
+              <h4 className="hh">Soup Recipe</h4>
+              <h4 className="hh">Bread Recipes</h4>
+              <h4 className="hh">Pasta Recipes</h4>
+              <h4 className="hh">Salad Recipes</h4>
+            </div>
+          )}
+        </div>
+        <div
+          className="dropdown-container"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <h6 className="dropdown-button" style={{ fontWeight: "bold" }}>
+            CUISINE
+          </h6>
+          {isDropdownOpen && (
+            <div className="dropdown-content">
+              <h4 className="hh">Mexican Recipes</h4>
+              <h4 className="hh">Italian Recipes</h4>
+              <h4 className="hh">Indian Recipes</h4>
+              <h4 className="hh">Thai Recipes</h4>
+              <h4 className="hh">Korean Recipes</h4>
+              <h4 className="hh">Freach Recipes</h4>
+              <h4 className="hh">Chinese Recipes</h4>
+              <h4 className="hh">Japanese Recipes</h4>
+              <h4 className="hh">Spanish Recipes</h4>
+            </div>
+          )}
+        </div>
+        <div
+          className="dropdown-container"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <h6 className="dropdown-button" style={{ fontWeight: "bold" }}>
+            MEAT & SEAFOOD
+          </h6>
+          {isDropdownOpen && (
+            <div className="dropdown-content">
+              <h4 className="hh">Chicken Recipes</h4>
+              <h4 className="hh">Salmon Recipes</h4>
+              <h4 className="hh">Pork Chop Recipes</h4>
+              <h4 className="hh">Ground Beef Recipes</h4>
+              <h4 className="hh">Shrimp Recipes</h4>
+            </div>
+          )}
+        </div>
+        <div
+          className="dropdown-container"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <h6 className="dropdown-button" style={{ fontWeight: "bold" }}>
+            HEALTHY
+          </h6>
+          {isDropdownOpen && (
+            <div className="dropdown-content">
+              <h4 className="hh">Keto Recipes</h4>
+              <h4 className="hh">Healthy Recipes</h4>
+              <h4 className="hh">Vegetariant Recipes</h4>
+              <h4 className="hh">Vegan Recipes</h4>
+              <h4 className="hh">Gluten-Free Recipes</h4>
+              <h4 className="hh">Low-Carb Recipes</h4>
+            </div>
+          )}
+        </div>
 
-        <FormControl fullWidth sx={{ m: 1,  minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">Recipies</InputLabel>
-                <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                // value={age}
-                label="Age"
-                // onChange={handleChange}
-                >               
-                <MenuItem value={10}>Chicken</MenuItem>
-                <MenuItem value={20}>Mutton</MenuItem>
-                <MenuItem value={30}>Fish</MenuItem>
-                </Select>
-        </FormControl>
-        <FormControl fullWidth sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">Quick & Easy</InputLabel>
-                <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                // value={age}
-                label="Age"
-                // onChange={handleChange}
-                >               
-                <MenuItem value={10}>Quick Meals</MenuItem>
-                <MenuItem value={20}>Fast BreakFast</MenuItem>
-                <MenuItem value={30}>5min Dinner</MenuItem>
-                </Select>
-        </FormControl>
-        <FormControl fullWidth sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">Food Style</InputLabel>
-                <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                // value={age}
-                label="Age"
-                // onChange={handleChange}
-                >               
-                <MenuItem value={10}>Asian</MenuItem>
-                <MenuItem value={20}>Chinese</MenuItem>
-                <MenuItem value={30}>Western</MenuItem>
-                </Select>
-        </FormControl>
+        <div
+          className="dropdown-container"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <h6
+            variant="contained"
+            className="dropdown-button"
+            onClick={() => navigate("/about")}
+            style={{ fontWeight: "bold" }}
+          >
+            ABOUT
+          </h6>
+        </div>
 
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "30px",
+            marginBottom: "10px",
+          }}
+        >
+          {/* <ButtonStyle variant='contained' onClick={()=>navigate('/filter')}>FILTER</ButtonStyle> */}
 
-                <Box sx={{display:'flex', alignItems:'center',gap:'10px'}}>
-                <ButtonStyle variant='contained'>FILTER</ButtonStyle>
-                <ButtonStyle variant='contained'>LOG IN</ButtonStyle>
-                {/* <Button>hgvgh</Button> */}
-                <PublishIcon/>
-                <SearchIcon/>
-                </Box>
-            </StyledToolBar>
-        </AppBar>
-    );
+          <SearchIcon
+            sx={{ fontSize: "30px" }}
+            onClick={() => navigate("/filter")}
+          />
+          <BookmarkBorderIcon
+            sx={{ fontSize: "30px" }}
+            onClick={() => navigate("/wishlist")}
+          />
+          <PublishIcon
+            sx={{ fontSize: "30px" }}
+            onClick={() => navigate("/upload")}
+          />
+
+          {/* {(loginData === null) ? (
+  <Avatar src="/static/images/avatar/1.jpg" onClick={() => navigate('/login')} style={{ cursor: 'pointer' }}/>
+) : (
+  //console.log(loginData.imageUrl)
+  <Avatar src={loginData.imageUrl}
+   onClick={() => {
+    navigate('/login');
+  }
 }
+   />
+)} */}
+          {loginData !== null && (
+            <Typography sx={{ color: "white" }}>
+              {loginData.username}
+            </Typography>
+          )}
+
+          {loginData === null ? (
+            <div>
+              <Avatar
+                src="URL_TO_USER_PROFILE_IMAGE"
+                onClick={handleClick}
+                style={{ cursor: "pointer" }}
+              />
+
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+              >
+                <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <div>
+              <Avatar
+                src={loginData.imageUrl}
+                onClick={handleClick}
+                style={{ cursor: "pointer" }}
+              />
+
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+              >
+                <MenuItem onClick={() => navigate("/profile")}>
+                  Profile
+                </MenuItem>
+
+                <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+              </Menu>
+            </div>
+          )}
+        </Box>
+      </StyledToolBar>
+    </AppBar>
+  );
+};
 
 export default Navbar;

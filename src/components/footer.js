@@ -42,9 +42,7 @@ export default function Footer() {
         
 
         <section className='mb-0'>
-          <p>
-          Explore the art of cooking with our handpicked selection of recipes that span various cuisines, dietary preferences, and skill levels. Whether you're a seasoned home cook or just starting your culinary journey, our recipes are here to guide you with clear instructions, fresh ingredients, and the promise of delightful flavors.
-          </p>
+         
           <p>
           Welcome to the world of delicious possibilities! Our collection of recipes brings you a diverse array of culinary creations to suit every taste and occasion. From quick and easy weekday meals to impressive dishes for special gatherings, each recipe is crafted with care and designed to inspire your inner chef.
           </p>

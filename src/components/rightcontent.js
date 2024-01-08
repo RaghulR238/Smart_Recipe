@@ -9,29 +9,30 @@ import I2 from './i2.jpg';
 import I3 from './i3.jpg';
 function Rightside() {
   return (  
-    <Carousel data-bs-theme="dark" style={{  position: "absolute",left:'0px', margin:'0px 10px 10px 10px', overflow: 'hidden' }}>
+    <Carousel data-bs-theme="dark" style={{  left:'0px', margin:'0px 10px 10px 10px', overflow: 'hidden' }} interval={1000}>
       <Carousel.Item>
-        <img style={{ width: "100%", height: "auto", borderRadius: "20px" }}
+        <img style={{ width: "100%", height: "auto"}}
           src={I1}
           alt="First slide"
         />
-      <CarouselCaption>WESTERN</CarouselCaption>
+      
+      {/* <CarouselCaption style={{fontSize:'50px',fontWeight:'bold',color:'black'}}>DELICIOUS & HEALTHY </CarouselCaption> */}
       </Carousel.Item>
       <Carousel.Item>
         <img
-          style={{ width: "100%", height: "auto", borderRadius: "20px" }}
+          style={{ width: "100%", height: "auto" }}
           src={I2}
           alt="Second slide"
         />
-        <CarouselCaption >Chinese</CarouselCaption>
+        {/* <CarouselCaption style={{fontSize:'50px',fontWeight:'bold',color:'red'}}>Chinese</CarouselCaption> */}
       </Carousel.Item>
       <Carousel.Item>
         <img
-          style={{ width: "100%", height: "auto", borderRadius: "20px" }}
+          style={{ width: "100%", height: "auto" }}
           src={I3}
           alt="Third slide"
         />
-        <CarouselCaption >Indian</CarouselCaption>
+        {/* <CarouselCaption >Indian</CarouselCaption> */}
       </Carousel.Item>
       
     </Carousel>

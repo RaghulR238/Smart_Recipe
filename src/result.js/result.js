@@ -1,120 +1,203 @@
-import { AppBar, Box, Button, Card, CardContent, CardMedia, Checkbox, Drawer, FormControl, FormControlLabel, FormLabel, Grid, InputBase, InputLabel, MenuItem, Radio, RadioGroup, Rating, Select, Stack, TextField, Toolbar, Typography, styled } from '@mui/material';
-import * as React from 'react';
-import { useEffect } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
-import TuneSharpIcon from '@mui/icons-material/TuneSharp';
-import TimerSharpIcon from '@mui/icons-material/TimerSharp';
-import Image from './img1.jpg';
-import { TimerSharp } from '@mui/icons-material';
-import { HighlightOffRounded, OutdoorGrill } from '@mui/icons-material';
-import  { useState } from 'react'
-import axios from 'axios';
-import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
-import OutdoorGrillIcon from '@mui/icons-material/OutdoorGrill';
-import './card2.css'
+import {
+  AppBar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Checkbox,
+  Drawer,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  InputBase,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Rating,
+  Select,
+  Stack,
+  TextField,
+  Toolbar,
+  Typography,
+  styled,
+} from "@mui/material";
+import * as React from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import TuneSharpIcon from "@mui/icons-material/TuneSharp";
+import TimerSharpIcon from "@mui/icons-material/TimerSharp";
+import { useState } from "react";
+import axios from "axios";
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
+import OutdoorGrillIcon from "@mui/icons-material/OutdoorGrill";
+import "./card2.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { data } from "./data";
+import Navbar from "../components/nav";
+import { Container } from "@mui/system";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
-const StyledToolBar = styled(Toolbar)({
-  margin: '10px',
-  padding: '5px',
-  fontSize: '50px',
-  alignItems: 'center',
-});
 
 
+let count = 0;
 
-
-let ar=[];
+let ar = [];
 export default function Result() {
-  const [title,setTitle]=useState([]);
-  const[rating,setRating]=useState(0);
- 
+  const navigate=useNavigate();
+  const [title, setTitle] = useState([]);
+  const[heartColor,setHeartColor]=useState('white');
 
-  const apiKey1='b9277005ebf74f12b62510043e2869a5';
-const apiKey='4652d41224d74dbcb1ea92606a4e100f';
-//const apiKey3='b3a6549e3e4142e6a9a8219944003f85';
 
+  function startFilter() {
+    const fil = location.state.customArray;
+    console.log("filter started");
+    console.log(fil);
+    console.log(fil[0]);
+    const filtered = data.filter(
+      (obj) =>
+        obj.vegetarian === false &&
+        obj.readyInMinutes < fil[0] &&
+        obj.spoonacularScore > fil[1]
+    );
+    console.log(filtered);
+    if (count == 0) {
+      count++;
+      setTitle(filtered);
+    }
+  }
+
+  const apiKey1 = "b9277005ebf74f12b62510043e2869a5";
+  const apiKey = "4652d41224d74dbcb1ea92606a4e100f";
+  const apiKey3 = "b3a6549e3e4142e6a9a8219944003f85";
+  const apikeymaja = "b3a6549e3e4142e6a9a8219944003f85";
+  const apikeyVasi = "75224b1718df478ea0892d31acae8ddf";
   const [state, setState] = React.useState({
     left: false,
   });
-  
+  const [hov, setHov] = useState(false);
   const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
-    
+
     setState({ ...state, left: open });
   };
-
-  const[inputvalue,setinputvalue]=useState('');
-  const handleChange=(event)=>{
-    setinputvalue(event.target.value);
-  }
-  const handleKeyPress = (event) => {
-    if(event.key==='Enter')
-    {
-    //console.log(inputvalue);
+  const handleChange = (event) => {
+    seti(event.target.value);
+  };
+  function handleKeyPress() {
+    setinputvalue(i);
+    console.log("search bar" + "  " + inputvalue);
     fetchData();
+  }
+
+  const fetchData = async () => {
+    try {
+      console.log("fetch data called");
+      console.log(inputvalue);
+      const response = await axios.get(
+        `https://api.spoonacular.com/recipes/complexSearch?query=${inputvalue}&addRecipeInformation=true&number=100&apiKey=${apikeymaja}`
+      );
+
+      ar = response.data;
+      setTitle(response.data.results);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const [inputvalue, setinputvalue] = useState("");
+  const [i, seti] = useState("");
+
+  const location = useLocation();
+  console.log(location.state);
+
+  if (location.state.search == null) {
+    console.log("iuc");
+    startFilter();
+  } else {
+    console.log(count);
+    if (count == 0) {
+      const receivedData = location.state && location.state.search;
+      count++;
+      console.log(receivedData);
+      const newdata = receivedData;
+      setinputvalue(newdata);
+      seti(newdata);
+      console.log(typeof inputvalue);
     }
   }
 
-  
+  useEffect(() => {
+    if (inputvalue !== null && location.state.search != null) {
+      console.log("useEffect");
+      console.log(inputvalue);
+      fetchData();
+    }
+  }, [inputvalue]);
 
-const fetchData = async () => {
-      try {
-        const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${inputvalue}&addRecipeInformation=true&apiKey=${apiKey}`);
-  
-        ar=response.data;
-        console.log(response.data);
-        console.log(response.data);
-        
-        setTitle(response.data.results);
-      } catch (error) {
-        // Handle errors
-        console.error('Error fetching data:', error);
-      }
-    };
-function set(s)
-{
-  console.log(typeof(s)+" "+s);
-if(s<25)
-{
-  return 1;
-}
-else if(s<50)
-{
-  return 2;
-}
-else if(s<75)
-{
-  return 3;
-}
-else if(s<80)
-{
-  return 3;
-}
-else 
-{
-  console.log("wetaewr");
-  return 5;
-}
-}
+  function set(s) {
+    if (s < 25) {
+      return 1;
+    } else if (s < 50) {
+      return 2;
+    } else if (s < 75) {
+      return 3;
+    } else if (s < 80) {
+      return 3;
+    } else {
+      return 5;
+    }
+  }
 
-return (
-  <div>
+  return (
+    <div>
       <Drawer anchor="left" open={state.left} onClose={toggleDrawer(false)}>
-        <HighlightOffRoundedIcon onClick={toggleDrawer(false)} sx={{ fontSize: '55px' , margin:'20px 0px 20px 0px'}} />
-        <Stack sx={{ alignItems: 'center', padding: '10px',border: '9px solid black' ,backgroundColor:'tomato'}}>
+        <HighlightOffRoundedIcon
+          onClick={toggleDrawer(false)}
+          sx={{ fontSize: "55px", margin: "20px 0px 20px 0px" }}
+        />
+        <Stack
+          sx={{
+            alignItems: "center",
+            padding: "10px",
+            border: "9px solid black",
+            backgroundColor: "tomato",
+          }}
+        >
           <OutdoorGrillIcon />
-          <Typography variant="h2" component="div" sx={{ fontFamily: '"Brush Script MT", cursive',flexGrow: 1, textAlign: 'center' }}>
+          <Typography
+            variant="h2"
+            component="div"
+            sx={{
+              fontFamily: '"Brush Script MT", cursive',
+              flexGrow: 1,
+              textAlign: "center",
+            }}
+          >
             Filter
           </Typography>
           <TextField
             label="Cooking Time"
-            sx={{ color:'white', margin:'20px 0px 20px 0px'}}
+            sx={{ color: "white", margin: "20px 0px 20px 0px" }}
             placeholder="Enter user name"
             fullWidth
           ></TextField>
-          <FormControl fullWidth sx={{color:'black', m: 1, minWidth: 120, margin:'20px 0px 20px 0px' }}>
+          <FormControl
+            fullWidth
+            sx={{
+              color: "black",
+              m: 1,
+              minWidth: 120,
+              margin: "20px 0px 20px 0px",
+            }}
+          >
             <InputLabel id="demo-simple-select-label">Ratings</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select">
               <MenuItem value={10}>5</MenuItem>
@@ -122,7 +205,15 @@ return (
               <MenuItem value={30}>3+</MenuItem>
             </Select>
           </FormControl>
-          <FormControl fullWidth sx={{color:'black', m: 1, minWidth: 120 , margin:'20px 0px 20px 0px'}}>
+          <FormControl
+            fullWidth
+            sx={{
+              color: "black",
+              m: 1,
+              minWidth: 120,
+              margin: "20px 0px 20px 0px",
+            }}
+          >
             <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select">
               <MenuItem value={10}>Hard</MenuItem>
@@ -130,15 +221,21 @@ return (
               <MenuItem value={30}>Easy</MenuItem>
             </Select>
           </FormControl>
-          <FormControl sx={{ color:'black',margin:'20px 0px 20px 0px'}}>
-            <FormLabel id="demo-row-radio-buttons-group-label">Food Type</FormLabel>
+          <FormControl sx={{ color: "black", margin: "20px 0px 20px 0px" }}>
+            <FormLabel id="demo-row-radio-buttons-group-label">
+              Food Type
+            </FormLabel>
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
             >
               <FormControlLabel value="veg" control={<Radio />} label="veg" />
-              <FormControlLabel value="non-veg" control={<Radio />} label="non-veg" />
+              <FormControlLabel
+                value="non-veg"
+                control={<Radio />}
+                label="non-veg"
+              />
             </RadioGroup>
           </FormControl>
           <FormControlLabel
@@ -146,89 +243,184 @@ return (
             control={<Checkbox />}
             label="Pure Hygienic"
             labelPlacement="start"
-            sx={{ color:'black',margin:'20px 0px 20px 0px'}}
+            sx={{ color: "black", margin: "20px 0px 20px 0px" }}
           />
-          <Button variant="outlined" sx={{backgroundColor:'black' ,color:'white', margin:'20px 0px 20px 0px', fontFamily:'"Brush Script MT", cursive',fontSize:'30px'}}>
-            SUBMIT</Button>
+          <Button
+            variant="outlined"
+            sx={{
+              backgroundColor: "black",
+              color: "white",
+              margin: "20px 0px 20px 0px",
+              fontFamily: '"Brush Script MT", cursive',
+              fontSize: "30px",
+            }}
+          >
+            SUBMIT
+          </Button>
         </Stack>
       </Drawer>
+      <Navbar />
 
-      <AppBar position="sticky" sx={{backgroundColor:'tomato'}}>
-        <StyledToolBar>
-          <Typography variant="h2" sx={{fontFamily: '"Brush Script MT", cursive', flexGrow: 1, textAlign: 'left' }}>
-            Smart Recipe
-          </Typography>
-          <InputBase
-            placeholder="Enter your search"
-            value={inputvalue}
-            onChange={handleChange}
-            onKeyPress={handleKeyPress}
-            sx={{
-              backgroundColor: 'white',
-              padding: '0.5rem',
-              borderRadius: '5px',
-              width: '800px',
-              marginRight: '300px',
-            }}
-            startAdornment={<SearchIcon />}
-            endAdornment={
-              <Button sx={{ width: '50px' }} variant="contained" onClick={toggleDrawer(true)}>
-                <TuneSharpIcon onClick={toggleDrawer(true)} />
+      <Stack
+        sx={{
+          backgroundColor: "black",
+          position: "fixed",
+          top: "heightOfNavbarAbove",
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+        }}
+      >
+        <InputBase
+          placeholder="Enter your search"
+          value={i}
+          onChange={handleChange}
+          sx={{
+            backgroundColor: "white",
+            padding: "0.5rem",
+            borderRadius: "5px",
+            width: "800px",
+            marginLeft: "350px",
+            marginBottom: "10px",
+          }}
+          startAdornment={<SearchIcon />}
+          endAdornment={
+            <>
+              <Button
+                onClick={handleKeyPress}
+                sx={{
+                  backgroundColor: "red",
+                  color: "white",
+                  marginRight: "10px",
+                }}
+              >
+                search
               </Button>
-            }
-          />
-        </StyledToolBar>
-      </AppBar>
-
-      <Stack flex="row" sx={{ padding: '20px',backgroundColor:'white'}}>
-        <Grid container spacing={4}>
-          {title.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
-              <div class="card">
-<div class="card__content">
-              <Card sx={{height: '550px',width:'433px',borderRadius: '15px', display: 'flex', flexDirection: 'column'}}>
-              <CardMedia
-                  component="div"
-                  sx={{
-                    marginLeft:"0px",
-                    marginTop:"0px",
-                   width:'300px',
-                   height:"300px"
-                  }}
-                ><img src={card.image} alt={title} style={{ width: '500px', height: '300px' }} /></CardMedia>
-                <CardContent sx={{ flexGrow: '1' }}>
-                <Typography variant="h3" component="div" sx={{ fontFamily: '"Brush Script MT", cursive', textAlign: 'left' }}>
-            {card.title}
-          </Typography>
-                  <Typography sx={{ paddingBottom: '10px', paddingTop: '10px' }}>
-                    CUISINES:{card.cuisines[0]}
-                  </Typography>
-                  <Typography sx={{ paddingBottom: '10px', paddingTop: '10px' }}>
-                    PRICE PER SERVING:{card.pricePerServing}
-                  </Typography>
-                  <Typography sx={{ paddingBottom: '10px', paddingTop: '10px' }}>
-                    HEALTH SCORE:{card.healthScore}
-                  </Typography>
-                  <Rating name="half-rating-read" defaultValue={set(card.spoonacularScore)} size="large"  readOnly />
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between', // Align items with space between
-                      marginTop: '-28px',
-                      textAlign: 'right', // Align text to the right
-                    }}
-                  >
-                    <TimerSharpIcon sx={{ marginLeft: 'auto' }} />
-                    <Typography variant="body2">{card.readyInMinutes}min</Typography>
-                  </Box>
-                </CardContent>
-              </Card>
-            </div>
-            </div>
-            </Grid>
-          ))}
-        </Grid>
+              <Button
+                sx={{ width: "50px", backgroundColor: "red" }}
+                variant="contained"
+                onClick={toggleDrawer(true)}
+              >
+                <TuneSharpIcon
+                  onClick={toggleDrawer(true)}
+                  sx={{ backgroundColor: "red" }}
+                />
+              </Button>
+            </>
+          }
+        />
+          <div style={{height:'8px',backgroundColor:'#19e6e2'}}></div>
       </Stack>
+
+      <Container sx={{ marginTop: "80px" }}>
+        <Typography
+          variant="h3"
+          sx={{
+            fontFamily: "'Pacifico', cursive",
+            fontWeight: "bold",
+            textAlign: "left",
+            color: "black",
+            margin: "20px 20px 20px 20px",
+          }}
+        >
+          Results...
+        </Typography>
+        <Stack flex="row" sx={{ backgroundColor: "white" }}>
+          <Grid container spacing={4}>
+          
+            {title.map((card) => (
+              <Grid item key={card} xs={1} sm={1} md={3}>
+                <Card
+          onClick={() => navigate('/final', { state: { cardId: card.id } })}
+                  sx={{
+                    height: "454px",
+                    width: "250px",
+                    display: "flex",
+                    flexDirection: "column",
+                    //transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    ":hover": {
+                      //transform: 'scale(1.1)',
+                      //boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                      backgroundColor: "#19e6e2",
+                    },
+                  }}
+                >
+                  <CardMedia
+                    component="div"
+                    sx={{
+                      marginLeft: "0px",
+                      marginTop: "0px",
+                      width: "250px",
+                      height: "200px",
+                      backgroundColor: "white",
+                    }}
+                    >
+                   <div style={{ position: "relative", }}>
+  <FavoriteIcon sx={{ color: heartColor, position: "absolute", top: 2, right: 4,fontSize:'35px',':hover':{color:'red'} }}/>
+  <img
+    src={card.image}
+    alt={title}
+    style={{ width: "250px", height: "200px" }}
+  />
+</div>
+
+                  </CardMedia>
+                  <CardContent sx={{ backgroundColor: "white" }}>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        fontFamily: "'Mukta', sans-serif",
+                        fontWeight: "bold",
+                        height: "80px",
+                      }}
+                    >
+                      {card.title.toUpperCase().substring(0, 30)}
+                    </Typography>
+
+                    <Typography sx={{ marginTop: "10px" }}>
+                      <span style={{ fontWeight: "bold" }}>
+                        PRICE PER SERVING :{" "}
+                      </span>
+                      {card.pricePerServing}
+                    </Typography>
+                    <Typography sx={{ marginTop: "10px" }}>
+                      <span style={{ fontWeight: "bold" }}>
+                        HEALTH SCORE :{" "}
+                      </span>
+                      {card.healthScore}
+                    </Typography>
+                    <Typography sx={{ marginTop: "10px" }}>
+                      <span style={{ fontWeight: "bold" }}>CUISINES : </span>
+                      {card.cuisines[0]}
+                    </Typography>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        textAlign: "right",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <Rating
+                        name="half-rating-read"
+                        defaultValue={set(card.spoonacularScore)}
+                        sx={{ color: "yellow" }}
+                        size="medium"
+                        readOnly
+                      />
+                      <TimerSharpIcon
+                        sx={{ color: "yellow", marginLeft: "35px" }}
+                      />
+                      <Typography>{card.readyInMinutes}min</Typography>
+                    </Box>
+                  </CardContent>
+                  <p></p>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Stack>
+      </Container>
     </div>
   );
 }

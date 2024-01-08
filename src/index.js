@@ -8,21 +8,43 @@ import RoundContainer from './page2/signup';
 import TemporaryDrawer from './filterpage.js/leftfilter';
 import Up from './upload.js/up';
 import Result from './result.js/result';
-
+import {BrowserRouter,Routes,Route} from "react-router-dom";
 import Final from './Final_page/final';
+import Round from './round';
+import DontMiss from './dontmiss/dontmiss';
+import Whislist from './whislist/whislist';
+import Wishlist from './whislist/whislist';
+import { Upload } from '@mui/icons-material';
+import Goo from './google/google2';
+import About from './aboutpage/about';
+import Login from './google/google2';
+import { LoginDataProvider } from './loginDataContext';
+import Profile from './profile/profile';
+import YourComponent from './server/testing';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-
-  //  <TemporaryDrawer/>
-   <App/>
-  //  <Up/>
-//  <Result/>
-//  <Final/> 
+  
+  <BrowserRouter>
+  <LoginDataProvider>
+<Routes>
+     <Route path="/" element={<App/>}/>
+     <Route path="/filter" element={<TemporaryDrawer/>}>
+     </Route>
+     <Route path="/result" element={<Result/>} />
+  <Route path="/wishlist" element={<Wishlist/>}/>
+  <Route path="/final" element={<Final/>}/>
+  <Route path="/upload" element={<Up/>}/>
+<Route path='/about' element={<About/>}/>
+<Route path='/login' element={<Login/>}/>
+ <Route path='/profile' element={<Profile/>}/>
+   </Routes>
+   </LoginDataProvider>
+ </BrowserRouter>
 
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+
+
 reportWebVitals();

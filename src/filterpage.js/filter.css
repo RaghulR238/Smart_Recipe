@@ -1,9 +1,9 @@
-/*The eye icon on the password can be stylize with any tool you want
+/* /*The eye icon on the password can be stylize with any tool you want
 to use (the only way i know to do this correctly is using JS)
 this is meant to be wide supported and it really depends on you browsers
 if i realize any way to stylize the eye it could be added in the future
 in other input type*/
-#SubscribeTXT {
+/* #SubscribeTXT {
     font-size: 50px;
     color: #0a4ccf;
   }
@@ -197,4 +197,4 @@ in other input type*/
     to {
       filter: drop-shadow(46px 36px 28px rgba(64, 144, 181, 0.3411764706)) drop-shadow(-55px -40px 28px #b83708);
     }
-  }
+  }  */

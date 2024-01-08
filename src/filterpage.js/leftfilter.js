@@ -6,7 +6,7 @@ import { Stack, color } from '@mui/system';
 import I1 from './i1.jpg';
 import I2 from './i2.jpg';
 import I3 from './i3.jpg';
-import './filter.css';
+//import './filter.css';
 import {
   Button,
   InputLabel,
@@ -30,6 +30,18 @@ import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import styled from '@emotion/styled';
 import Image from './img1.jpg';
 import Image2 from './Filter2.jpg';
+import { useState } from 'react';
+import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom';
+import Result from '../result.js/result';
+import Navbar from '../components/nav';
+import Footer from '../components/footer';
+import fil from './fil.jpg';
+import Round from '../round';
+import cake from './cake.jpg'
+import DontMiss2 from './dontmis/filterMiss';
+import Round2 from './round';
+
+
 
 const StyledToolBar = styled(Toolbar)({
   margin: '10px',
@@ -40,6 +52,8 @@ const StyledToolBar = styled(Toolbar)({
 
 const count=[1,2,3,4,5,6,7,8,9,10,11,12,13];
 export default function TemporaryDrawer() {
+
+
   const [state, setState] = React.useState({
     left: true,
   });
@@ -52,73 +66,114 @@ export default function TemporaryDrawer() {
     setState({ ...state, left: open });
   };
 
+  //const[search,setSearch]=useState('');
+  const[search,setSearch]=useState('');
+  const navigate=useNavigate();
+
+  function handleSearch(){
+    console.log(search);
+    navigate('/result',{ state: { search } });
+  }
+
+
+  const[cooktime,setcooktime]=useState('');
+   const[ratings,setRatings]=useState('');
+   const[difficulty,setDifficulty]=useState('');
+   const[type,setType]=useState('');
+   const[hygienic,setHygienic]=useState('');
+  const[filterData,setFilterData]=useState([]);
+  const[arr,setArr]=useState([]);
+  function handlefilter(){
+    navigate('/result',{ state: { filterData } });
+  }
+  function handleSubmit() {
+    // Combine multiple values into a single array
+    const newData = [cooktime, ratings, difficulty, type, hygienic];
+  
+    // Update the state with the new array
+    // setArr((prevArr) => {
+    //   const updatedArr = [...prevArr, newData];
+    //   console.log(updatedArr); // This will log the updated state
+    //   return updatedArr;
+    // });
+    // console.log(arr);
+  
+    // Navigate to the '/result' route with the state
+    navigate('/result', { state: {customArray: newData } });
+  }
+  
+  
   return (
+  
     <div>
+
       <Drawer anchor="left" open={state.left} onClose={toggleDrawer(false)}>
-        <HighlightOffRoundedIcon onClick={toggleDrawer(false)} sx={{ fontSize: '55px' , margin:'20px 0px 20px 0px'}} />
-        <Stack sx={{ alignItems: 'center', padding: '10px',border: '9px solid black' ,backgroundColor:'tomato'}}>
-          <OutdoorGrillIcon />
-          <Typography variant="h2" component="div" sx={{ fontFamily: '"Brush Script MT", cursive',flexGrow: 1, textAlign: 'center' }}>
+        <HighlightOffRoundedIcon onClick={toggleDrawer(false)} sx={{ fontSize: '35px',color:'red' , margin:'10px 0px 0px 180px'}} />
+        <Stack sx={{ alignItems: 'center', padding: '10px'}}>
+          <OutdoorGrillIcon sx={{fontSize:'40px'}}/>
+          <Typography variant="h2" component="div" sx={{  fontFamily: "'Pacifico', cursive",flexGrow: 1, textAlign: 'center' }}>
             Filter
           </Typography>
           <TextField
             label="Cooking Time"
-            sx={{ color:'white', margin:'20px 0px 20px 0px'}}
+            sx={{ color:'white', margin:'20px 0px 15px 0px'}}
             placeholder="Enter user name"
             fullWidth
+            onChange={(e)=>setcooktime(e.target.value)}
           ></TextField>
           <FormControl fullWidth sx={{color:'black', m: 1, minWidth: 120, margin:'20px 0px 20px 0px' }}>
             <InputLabel id="demo-simple-select-label">Ratings</InputLabel>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select">
-              <MenuItem value={10}>5</MenuItem>
-              <MenuItem value={20}>4+</MenuItem>
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={ratings} onChange={(e)=>setRatings(e.target.value)}>
+              <MenuItem value={80}>5</MenuItem>
+              <MenuItem value={50}>4+</MenuItem>
               <MenuItem value={30}>3+</MenuItem>
             </Select>
           </FormControl>
           <FormControl fullWidth sx={{color:'black', m: 1, minWidth: 120 , margin:'20px 0px 20px 0px'}}>
             <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select">
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={difficulty} onChange={(e)=>setDifficulty(e.target.value)}>
               <MenuItem value={10}>Hard</MenuItem>
               <MenuItem value={20}>Medium</MenuItem>
               <MenuItem value={30}>Easy</MenuItem>
             </Select>
           </FormControl>
-          <FormControl sx={{ color:'black',margin:'20px 0px 20px 0px'}}>
+          <FormControl sx={{ color:'black',margin:'20px 0px 15px 0px'}}>
             <FormLabel id="demo-row-radio-buttons-group-label">Food Type</FormLabel>
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
+              value={type} 
+              onChange={(e)=>setType(e.target.value)}
             >
-              <FormControlLabel value="veg" control={<Radio />} label="veg" />
-              <FormControlLabel value="non-veg" control={<Radio />} label="non-veg" />
+              <FormControlLabel value="veg" control={<Radio />} label="Veg" />
+              <FormControlLabel value="non-veg" control={<Radio />} label="Non-Veg" />
             </RadioGroup>
           </FormControl>
           <FormControlLabel
             value="start"
-            control={<Checkbox />}
+            control={<Checkbox checked={hygienic} onChange={(e)=>setHygienic(e.target.value)}/>}
             label="Pure Hygienic"
             labelPlacement="start"
-            sx={{ color:'black',margin:'20px 0px 20px 0px'}}
+            sx={{ color:'black',margin:'20px 0px 10px 0px'}}
           />
-          <Button variant="outlined" sx={{backgroundColor:'black' ,color:'white', margin:'20px 0px 20px 0px', fontFamily:'"Brush Script MT", cursive',fontSize:'30px'}}>
+          <Button variant="outlined" sx={{backgroundColor:'black' ,color:'white', margin:'20px 0px 10px 0px',fontSize:'15px',transition: 'none', // Disable transition for hover effect
+    ':hover': {
+      backgroundColor: 'black', // Ensure the hover color is the same as the default color
+      color: 'white',
+    }}}
+          onClick={handleSubmit}>
             SUBMIT</Button>
         </Stack>
       </Drawer>
 
 
-      <AppBar position="sticky" sx={{backgroundColor:'tomato'}}>
-        <StyledToolBar>
-          <Typography variant="h2" component="div" sx={{ fontFamily: '"Brush Script MT", cursive',flexGrow: 1, textAlign: 'center' }}>
-            Find a Recipe
-          </Typography>
-          
-        </StyledToolBar>
-      </AppBar>
+     
+      <Navbar/>
+      <div style={{height:'8px',backgroundColor:'#19e6e2',position: 'fixed', top: 'heightOfNavbarAbove', left: 0, right: 0, zIndex: 1000}}></div>
 
-
-      <Stack direction="row"  sx={{ border: '9px solid black' ,borderRadius: '8px' }}>
-        <Box flex={2.7} sx={{ margin: 0, padding: 0 }}>
+     <Container>
+        <Box flex={2.7} sx={{ marginTop: "30px", padding: 0 }}>
         {/* <Container sx={{ position: 'relative', padding: '0', margin: '0' }}> */}
       <Carousel
         style={{
@@ -127,6 +182,7 @@ export default function TemporaryDrawer() {
           overflow: 'hidden',
           cursor: 'pointer',
         }}
+        interval={1000}
       >
         <Carousel.Item>
           <img
@@ -160,62 +216,56 @@ export default function TemporaryDrawer() {
         alignItems="center"
         justifyContent="center"
         position="absolute"
-        top="35%"
-        left="25%"
+        top="45%"
+        left="35%"
         transform="translate(-50%, -50%)"
-        bgcolor="rgba(255, 255, 255, 0.8)"
+        bgcolor="rgba(255, 255, 255, 0.6)"
         borderRadius="8px"
         p={3}
         boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
         
+        
       >
-        {/* <Typography variant="h4" sx={{ marginBottom: '1rem' }}>
-          Search Your Favorite
-        </Typography> */}
-        {/* <InputBase
+        <Typography variant="h4" sx={{ marginBottom: '1rem' }}>
+          Cook Your Favorite
+        </Typography> 
+         <InputBase
           placeholder="Enter your search"
           sx={{
             backgroundColor: 'white',
             padding: '0.5rem',
             borderRadius: '5px',
-            width: '400px',
-            
+            width: '500px',
           }}
+          onChange={(e)=>setSearch(e.target.value)}
           startAdornment={<SearchIcon />}
         />
-        <Button variant="contained" sx={{ marginTop: '1rem' }}>
-          Search
-        </Button> */}
-        <form action="" class="container">
-  <div class="input-container">
-      <div class="input-content">
-          <div class="input-dist">
-           <span id="SubscribeTXT">Steam Here</span>
-              <div class="input-type">
-                  <input placeholder="Food" required="" type="text" class="input-is"/>  
-                   
-              </div>
-              <button>Serve</button>
-          </div>
-      </div>
-  </div>
-</form>
+        <Button variant="contained" sx={{backgroundColor:'black' ,color:'white', margin:'20px 0px 10px 0px',fontSize:'15px',transition: 'none', // Disable transition for hover effect
+    ':hover': {
+      backgroundColor: 'black', // Ensure the hover color is the same as the default color
+      color: 'white',
+    }}} onClick={handleSearch}>
+          Serve
+        </Button>
+        
       </Stack>
 
-    {/* </Container> */}
+      <DontMiss2/>
         </Box>
-
-
+        <Typography variant="h3" sx={{ fontFamily: "'Pacifico', cursive",textAlign:'left' ,color:'black', margin:'50px 50px 50px 0px'}}>
+    Filter By Ingredients...
+        </Typography>
         <Box
       flex={1}
       sx={{
+        marginTop:"50px",
         padding: '15px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         width:'100%',
-       height:'668px',
-        backgroundImage: `url(${Image2})`,
+       height:'450px',
+        backgroundImage: `url(${fil})`,
     
         backgroundSize: 'cover',
         backgroundColor: 'rgba(255, 255, 255, 0.8)', // Adjust the alpha value for transparency
@@ -225,20 +275,33 @@ export default function TemporaryDrawer() {
       <Stack  
   
         transform="translate(-50%, -50%)"
-        bgcolor="rgba(255, 255, 255, 0.6)"
+        bgcolor="rgba(255, 255, 255, 0.8)"
         borderRadius="8px"
         p={3}
-        sx={{height:"800px", overflow:'scroll'}}
+        sx={{height:"372px", overflowY:'scroll',width:"500px",marginLeft:'500px',marginTop:'25px'}}
         >
-      <Typography variant='h3' sx={{fontFamily: '"Brush Script MT", cursive',color:'red'}}>Filter by Ingredient Available</Typography>
-      <Typography variant='h4' sx={{fontFamily: '"Brush Script MT", cursive'}}>Enter the Ingredient:</Typography>
+
+      <Typography variant='h4' sx={{marginBottom:'20px'}}>Enter Ingredient:<span style={{marginLeft:'89px'}}><button  style={{color:'white',backgroundColor:'black',fontSize:'25px'}}><SearchIcon /> Find</button></span></Typography>
       {count.map((c) => (
         <TextField key={c} fullWidth label={`Ingredient${c}`} id={`Ingredient${c}`} />
       ))}
-      <Button>Find</Button>
+      
       </Stack>
     </Box>
-      </Stack>
-    </div>
+    
+    <Round2/>
+    <Stack direction='flex' spacing={2} marginTop={'50px'}>
+    <img src={cake} style={{width:'100%',height:'600px',marginRight:'50px'}}></img>
+    <Typography sx={{fontSize:'20px',fontFamily:"'Mukta', sans-serif",paddingTop:'100px'}}><span><p style={{fontSize:'30px',fontFamily:"'Mukta', sans-serif",fontWeight:'bold'}}>The Art of Exquisite Cake Craftsmanship</p></span>Cakes have a rich history that dates back centuries. The concept of baking a sweet, flour-based food has been present in various cultures. The ancient Egyptians were among the first to show evidence of baking skills, and over time, different civilizations contributed to the development of the cake we know today.The art of cake decorating has evolved into a creative endeavor. Skilled bakers use various techniques, such as fondant sculpting, piping, and edible decorations, to turn simple cakes into stunning works of art. Special occasions like weddings and birthdays often feature elaborately decorated cakes that reflect the theme or interests of the celebration.
+
+
+
+</Typography>
+    </Stack>
+    </Container>
+    <Footer/>
+
+      </div>
+  
   );
 }
