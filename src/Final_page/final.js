@@ -80,7 +80,9 @@ else
 
 export default function Final() {
     
-    
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  },[])
 const [title,setTitle]=useState([]);
 const [nutrient,setn]=useState();
 
@@ -96,12 +98,14 @@ const [showPopup, setShowPopup] = useState(false);
 const apiKey1 = 'b9277005ebf74f12b62510043e2869a5';
 const location = useLocation();
 const recipeId = location.state.cardId;
+const datamongo=location.state.data;
 
 useEffect(() => {
 
   const fetchData = async () => {
     try {
-
+      if(recipeId!=null)
+      {
       const response = await axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information?includeNutrition=false&apiKey=${apikeymaja}`);
       
       console.log(response.data);
@@ -114,6 +118,11 @@ useEffect(() => {
       
       console.log(nutrient.data);
       setn(nutrient.data);
+      }
+      else{
+        setTitle(datamongo);
+        console.log(datamongo);
+      }
     } catch (error) {
       // Handle errors
       console.error('Error fetching data:', error);
@@ -164,7 +173,7 @@ useEffect(() => {
       <Stack direction='row' sx={{marginTop:'30px'}}>
       <Typography variant='h6' >
         <RamenDiningTwoToneIcon sx={{fontSize:'25px', marginRight:'5px'}}/>
-          Ready Time:{title.servings}
+          Ready Time:{title.readyInMinutes}
       </Typography >
       <Typography variant='h6' sx={{marginLeft:'180px'}}>
         <WatchLaterTwoToneIcon sx={{marginRight:'5px'}}/>
@@ -180,12 +189,13 @@ useEffect(() => {
         <MonetizationOnTwoToneIcon sx={{marginRight:'5px'}}/>
         Price Per Savings:{title.pricePerServing}
       </Typography>
-      {
+      {title.vegetariant&&
           title.vegetariant?(
               <Typography variant='h6' sx={{marginLeft:'85px'}}><FoodBankTwoToneIcon sx={{marginRight:'5px',marginBottom:'5px'}}/>Food Type:veg    </Typography>
           ):(<Typography variant='h6' sx={{marginLeft:'85px'}}><FoodBankTwoToneIcon sx={{marginRight:'5px',marginBottom:'5px'}}/>Food Type:Non veg</Typography>)
       }
-      {
+      
+      {title.cuisines&&
         title.cuisines?(<Typography variant='h6' sx={{marginLeft:'110px'}}><SoupKitchenTwoToneIcon sx={{marginRight:'5px',marginBottom:'5px'}}/>Cuisine:{title.cuisines[0]}</Typography>):(<div>e</div>)
       }
       
@@ -275,13 +285,15 @@ useEffect(() => {
 
 
 
-    
+   {title.summary&& 
+   <>
    <Typography  variant='h2' sx={{fontFamily:"'Mukta', sans-serif",fontWeight:'bold',marginTop:'20px'}}>
                    Summary :
                   </Typography>  
     
   <div style={{fontSize:'20px', marginTop:'30px',textAlign:'justify'}} dangerouslySetInnerHTML={{ __html: title.summary }} />
-
+  </>
+   }
 
     <Typography  variant='h2' sx={{fontFamily:"'Mukta', sans-serif",fontWeight:'bold',marginTop:'20px'}}>
                    Realted Dishes:

@@ -52,7 +52,9 @@ const StyledToolBar = styled(Toolbar)({
 
 const count=[1,2,3,4,5,6,7,8,9,10,11,12,13];
 export default function TemporaryDrawer() {
-
+  React.useEffect(()=>{
+    window.scrollTo(0,0);
+  },[])
 
   const [state, setState] = React.useState({
     left: true,
@@ -87,18 +89,9 @@ export default function TemporaryDrawer() {
     navigate('/result',{ state: { filterData } });
   }
   function handleSubmit() {
-    // Combine multiple values into a single array
+    
     const newData = [cooktime, ratings, difficulty, type, hygienic];
   
-    // Update the state with the new array
-    // setArr((prevArr) => {
-    //   const updatedArr = [...prevArr, newData];
-    //   console.log(updatedArr); // This will log the updated state
-    //   return updatedArr;
-    // });
-    // console.log(arr);
-  
-    // Navigate to the '/result' route with the state
     navigate('/result', { state: {customArray: newData } });
   }
   
@@ -108,10 +101,10 @@ export default function TemporaryDrawer() {
     <div>
 
       <Drawer anchor="left" open={state.left} onClose={toggleDrawer(false)}>
-        <HighlightOffRoundedIcon onClick={toggleDrawer(false)} sx={{ fontSize: '35px',color:'red' , margin:'10px 0px 0px 180px'}} />
+        <HighlightOffRoundedIcon onClick={toggleDrawer(false)} sx={{ fontSize: '35px',color:'red' , margin:'10px 0px 0px 180px',cursor:"pointer"}} />
         <Stack sx={{ alignItems: 'center', padding: '10px'}}>
-          <OutdoorGrillIcon sx={{fontSize:'40px'}}/>
-          <Typography variant="h2" component="div" sx={{  fontFamily: "'Pacifico', cursive",flexGrow: 1, textAlign: 'center' }}>
+          <OutdoorGrillIcon sx={{fontSize:'40px',color:'#783c04'}}/>
+          <Typography variant="h2" component="div" sx={{  fontFamily: "'Pacifico', cursive",flexGrow: 1, textAlign: 'center',color:"#783c04" }}>
             Filter
           </Typography>
           <TextField
@@ -157,10 +150,11 @@ export default function TemporaryDrawer() {
             labelPlacement="start"
             sx={{ color:'black',margin:'20px 0px 10px 0px'}}
           />
-          <Button variant="outlined" sx={{backgroundColor:'black' ,color:'white', margin:'20px 0px 10px 0px',fontSize:'15px',transition: 'none', // Disable transition for hover effect
+          <Button variant="outlined" sx={{backgroundColor:'#783c04' ,color:'white', border:"none",margin:'20px 0px 10px 0px',fontSize:'15px',transition: 'none', // Disable transition for hover effect
     ':hover': {
-      backgroundColor: 'black', // Ensure the hover color is the same as the default color
+      backgroundColor: '#783c04', // Ensure the hover color is the same as the default color
       color: 'white',
+      border:"none"
     }}}
           onClick={handleSubmit}>
             SUBMIT</Button>
@@ -219,14 +213,14 @@ export default function TemporaryDrawer() {
         top="45%"
         left="35%"
         transform="translate(-50%, -50%)"
-        bgcolor="rgba(255, 255, 255, 0.6)"
+        bgcolor="rgba(255, 255, 255, 0.5)"
         borderRadius="8px"
         p={3}
         boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
         
         
       >
-        <Typography variant="h4" sx={{ marginBottom: '1rem' }}>
+        <Typography variant="h4" sx={{fontWeight:"bold", color:"#783c04",marginBottom: '1rem' }}>
           Cook Your Favorite
         </Typography> 
          <InputBase
@@ -240,9 +234,9 @@ export default function TemporaryDrawer() {
           onChange={(e)=>setSearch(e.target.value)}
           startAdornment={<SearchIcon />}
         />
-        <Button variant="contained" sx={{backgroundColor:'black' ,color:'white', margin:'20px 0px 10px 0px',fontSize:'15px',transition: 'none', // Disable transition for hover effect
+        <Button variant="contained" sx={{backgroundColor:'#783c04' ,color:'white', margin:'20px 0px 10px 0px',fontSize:'15px',transition: 'none', // Disable transition for hover effect
     ':hover': {
-      backgroundColor: 'black', // Ensure the hover color is the same as the default color
+      backgroundColor: '#783c04', // Ensure the hover color is the same as the default color
       color: 'white',
     }}} onClick={handleSearch}>
           Serve
@@ -281,7 +275,7 @@ export default function TemporaryDrawer() {
         sx={{height:"372px", overflowY:'scroll',width:"500px",marginLeft:'500px',marginTop:'25px'}}
         >
 
-      <Typography variant='h4' sx={{marginBottom:'20px'}}>Enter Ingredient:<span style={{marginLeft:'89px'}}><button  style={{color:'white',backgroundColor:'black',fontSize:'25px'}}><SearchIcon /> Find</button></span></Typography>
+      <Typography variant='h4' sx={{marginBottom:'20px'}}>Enter Ingredient:<span style={{marginLeft:'89px'}}><button  style={{color:'white',backgroundColor:'#783c04',border:"none",fontSize:'25px'}}><SearchIcon /> Find</button></span></Typography>
       {count.map((c) => (
         <TextField key={c} fullWidth label={`Ingredient${c}`} id={`Ingredient${c}`} />
       ))}

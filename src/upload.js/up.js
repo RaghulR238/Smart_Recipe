@@ -72,15 +72,17 @@ export default function Up() {
   const navigate=useNavigate();
 
   const [upload, setUpload] = useState({
-    recipe_name: "",
-    upload_image: "",
-    directions: "",
+    title: "",
+    image: "",
+    analyzedInstructions: "",
     ingredients: Array(10).fill(""),
-    equipments: "",
-    timing: "",
-    complexity: "",
-    hygienic_level: -0.00000005,
+    pricePerServing:"",
+    readyInMinutes:"",
+    healthScore: -0.00000005,
     food_type: "veg",
+    sourceName:'',
+    spoonacularScore:"",
+    servings:'',
   });
 
   // const handleChange = (e, index) => {
@@ -124,7 +126,7 @@ export default function Up() {
     try{
       await axios.post("http://localhost:3002/api/upload/up",{
         ...upload,
-        upload_image:url
+        image:url
       },{
         withCredentials: true,
         headers: {
@@ -166,7 +168,7 @@ export default function Up() {
       <Container
         sx={{ marginTop: "100px", padding: "20px", backgroundColor: "#e1eaea" }}
       >
-        <Trending />
+        {/* <Trending /> */}
 
         <Typography
           variant="h5"
@@ -183,9 +185,9 @@ export default function Up() {
           id="outlined-required"
           placeholder="Recipe Name"
           sx={{ margin: "0px", marginTop: "20px" }}
-          name="recipe_name"
+          name="title"
           onChange={handleChange}
-          value={upload.recipe_name}
+          value={upload.title}
         />
 
         <Typography
@@ -202,7 +204,7 @@ export default function Up() {
           type="file"
           accept="image/*"
           sx={{ margin: "0px", marginTop: "20px", marginLeft: "10px" }}
-          name="upload_image"
+          name="image"
           onChange={(e) => setFile(e.target.files[0])}
         />
         <br></br>
@@ -229,9 +231,9 @@ export default function Up() {
           multiline
           rows={6}
           placeholder="Enter the steps for preparation"
-          name="directions"
+          name="analyzedInstructions"
           onChange={handleChange}
-          value={upload.directions}
+          value={upload.analyzedInstructions}
         />
 
         <Typography
@@ -267,7 +269,7 @@ export default function Up() {
           ))}
         </Box>
 
-        <Typography
+        {/* <Typography
           variant="h5"
           sx={{
             fontFamily: "'Mukta', sans-serif",
@@ -287,9 +289,45 @@ export default function Up() {
           rows={4}
           onChange={handleChange}
           value={upload.equipments}
+        /> */}
+        <Typography variant="h5" sx={{fontFamily: "'Mukta', sans-serif",fontWeight: "bold",margin: "0px",marginTop: "20px",}}>
+          price Per Serving :
+          </Typography>
+        <TextField id="outlined" placeholder="Cooking Equipment" sx={{ marginTop: "20px" }} 
+        name="pricePerServing" onChange={handleChange} value={upload.pricePerServing}
         />
+         <Typography variant="h5" sx={{fontFamily: "'Mukta', sans-serif",fontWeight: "bold",margin: "0px",marginTop: "20px",}}>
+          Source Name :
+          </Typography>
+        <TextField id="outlined" placeholder="Cooking Equipment" sx={{ marginTop: "20px" }} 
+        name="sourceName" onChange={handleChange} value={upload.sourceName}
+        />
+        <Typography variant="h5" sx={{fontFamily: "'Mukta', sans-serif",fontWeight: "bold",margin: "0px",marginTop: "20px",}}>
+        Spoonacular Score :
+          </Typography>
+        <TextField id="outlined" placeholder="Cooking Equipment" sx={{ marginTop: "20px" }} 
+        name="spoonacularScore" onChange={handleChange} value={upload.spoonacularScore}
+        />
+        <Typography variant="h5" sx={{fontFamily: "'Mukta', sans-serif",fontWeight: "bold",margin: "0px",marginTop: "20px",}}>
+       Servings :
+          </Typography>
+        <TextField id="outlined" placeholder="Cooking Equipment" sx={{ marginTop: "20px" }} 
+        name="servings" onChange={handleChange} value={upload.servings}
+        />
+        <Typography variant="h5" sx={{fontFamily: "'Mukta', sans-serif",fontWeight: "bold",margin: "0px",marginTop: "20px",}}>
+       Ready Time:
+          </Typography>
+        <TextField id="outlined" placeholder="Cooking Equipment" sx={{ marginTop: "20px" }} 
+        name="readyInMinutes" onChange={handleChange} value={upload.readyInMinutes}
+        />
+        {/* <Typography variant="h5" sx={{fontFamily: "'Mukta', sans-serif",fontWeight: "bold",margin: "0px",marginTop: "20px",}}>
+       Health :
+          </Typography>
+        <TextField id="outlined" placeholder="Cooking Equipment" sx={{ marginTop: "20px" }} 
+        name="healthScore" onChange={handleChange} value={upload.healthScore}
+        /> */}
 
-        <Typography
+        {/* <Typography
           variant="h5"
           sx={{
             fontFamily: "'Mukta', sans-serif",
@@ -307,7 +345,7 @@ export default function Up() {
           name="timing"
           onChange={handleChange}
           value={upload.timing}
-        />
+        /> */}
 
         <Typography
           variant="h5"
@@ -336,11 +374,11 @@ export default function Up() {
             marginTop: "20px",
           }}
         >
-          Hygienic Level :
+          Health Score :
         </Typography>
         <Slider
           aria-label="Small steps"
-          defaultValue={upload.hygienic_level}
+          defaultValue={upload.healthScore}
           step={0.00000006}
           marks={marks}
           min={-0.00000005}

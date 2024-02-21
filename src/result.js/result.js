@@ -156,109 +156,97 @@ export default function Result() {
     }
   }
 
+
+  
+  function handleSearch(){
+    console.log(search);
+    navigate('/result',{ state: { search } });
+  }
+
+  const[search,setSearch]=useState('');
+  const[cooktime,setcooktime]=useState('');
+   const[ratings,setRatings]=useState('');
+   const[difficulty,setDifficulty]=useState('');
+   const[type,setType]=useState('');
+   const[hygienic,setHygienic]=useState('');
+  const[filterData,setFilterData]=useState([]);
+  const[arr,setArr]=useState([]);
+  function handlefilter(){
+    navigate('/result',{ state: { filterData } });
+  }
+  function handleSubmit() {
+    
+    const newData = [cooktime, ratings, difficulty, type, hygienic];
+  
+    navigate('/result', { state: {customArray: newData } });
+  }
+
+
   return (
     <div>
+      
       <Drawer anchor="left" open={state.left} onClose={toggleDrawer(false)}>
-        <HighlightOffRoundedIcon
-          onClick={toggleDrawer(false)}
-          sx={{ fontSize: "55px", margin: "20px 0px 20px 0px" }}
-        />
-        <Stack
-          sx={{
-            alignItems: "center",
-            padding: "10px",
-            border: "9px solid black",
-            backgroundColor: "tomato",
-          }}
-        >
-          <OutdoorGrillIcon />
-          <Typography
-            variant="h2"
-            component="div"
-            sx={{
-              fontFamily: '"Brush Script MT", cursive',
-              flexGrow: 1,
-              textAlign: "center",
-            }}
-          >
+        <HighlightOffRoundedIcon onClick={toggleDrawer(false)} sx={{ fontSize: '35px',color:'red' , margin:'10px 0px 0px 180px',cursor:"pointer"}} />
+        <Stack sx={{ alignItems: 'center', padding: '10px'}}>
+          <OutdoorGrillIcon sx={{fontSize:'40px',color:'#783c04'}}/>
+          <Typography variant="h2" component="div" sx={{  fontFamily: "'Pacifico', cursive",flexGrow: 1, textAlign: 'center',color:"#783c04" }}>
             Filter
           </Typography>
           <TextField
             label="Cooking Time"
-            sx={{ color: "white", margin: "20px 0px 20px 0px" }}
+            sx={{ color:'white', margin:'20px 0px 15px 0px'}}
             placeholder="Enter user name"
             fullWidth
+            onChange={(e)=>setcooktime(e.target.value)}
           ></TextField>
-          <FormControl
-            fullWidth
-            sx={{
-              color: "black",
-              m: 1,
-              minWidth: 120,
-              margin: "20px 0px 20px 0px",
-            }}
-          >
+          <FormControl fullWidth sx={{color:'black', m: 1, minWidth: 120, margin:'20px 0px 20px 0px' }}>
             <InputLabel id="demo-simple-select-label">Ratings</InputLabel>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select">
-              <MenuItem value={10}>5</MenuItem>
-              <MenuItem value={20}>4+</MenuItem>
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={ratings} onChange={(e)=>setRatings(e.target.value)}>
+              <MenuItem value={80}>5</MenuItem>
+              <MenuItem value={50}>4+</MenuItem>
               <MenuItem value={30}>3+</MenuItem>
             </Select>
           </FormControl>
-          <FormControl
-            fullWidth
-            sx={{
-              color: "black",
-              m: 1,
-              minWidth: 120,
-              margin: "20px 0px 20px 0px",
-            }}
-          >
+          <FormControl fullWidth sx={{color:'black', m: 1, minWidth: 120 , margin:'20px 0px 20px 0px'}}>
             <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select">
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={difficulty} onChange={(e)=>setDifficulty(e.target.value)}>
               <MenuItem value={10}>Hard</MenuItem>
               <MenuItem value={20}>Medium</MenuItem>
               <MenuItem value={30}>Easy</MenuItem>
             </Select>
           </FormControl>
-          <FormControl sx={{ color: "black", margin: "20px 0px 20px 0px" }}>
-            <FormLabel id="demo-row-radio-buttons-group-label">
-              Food Type
-            </FormLabel>
+          <FormControl sx={{ color:'black',margin:'20px 0px 15px 0px'}}>
+            <FormLabel id="demo-row-radio-buttons-group-label">Food Type</FormLabel>
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
+              value={type} 
+              onChange={(e)=>setType(e.target.value)}
             >
-              <FormControlLabel value="veg" control={<Radio />} label="veg" />
-              <FormControlLabel
-                value="non-veg"
-                control={<Radio />}
-                label="non-veg"
-              />
+              <FormControlLabel value="veg" control={<Radio />} label="Veg" />
+              <FormControlLabel value="non-veg" control={<Radio />} label="Non-Veg" />
             </RadioGroup>
           </FormControl>
           <FormControlLabel
             value="start"
-            control={<Checkbox />}
+            control={<Checkbox checked={hygienic} onChange={(e)=>setHygienic(e.target.value)}/>}
             label="Pure Hygienic"
             labelPlacement="start"
-            sx={{ color: "black", margin: "20px 0px 20px 0px" }}
+            sx={{ color:'black',margin:'20px 0px 10px 0px'}}
           />
-          <Button
-            variant="outlined"
-            sx={{
-              backgroundColor: "black",
-              color: "white",
-              margin: "20px 0px 20px 0px",
-              fontFamily: '"Brush Script MT", cursive',
-              fontSize: "30px",
-            }}
-          >
-            SUBMIT
-          </Button>
+          <Button variant="outlined" sx={{backgroundColor:'#783c04' ,color:'white', border:"none",margin:'20px 0px 10px 0px',fontSize:'15px',transition: 'none', // Disable transition for hover effect
+    ':hover': {
+      backgroundColor: '#783c04', // Ensure the hover color is the same as the default color
+      color: 'white',
+      border:"none"
+    }}}
+          onClick={handleSubmit}>
+            SUBMIT</Button>
         </Stack>
       </Drawer>
+
+
       <Navbar />
 
       <Stack
@@ -282,6 +270,7 @@ export default function Result() {
             width: "800px",
             marginLeft: "350px",
             marginBottom: "10px",
+            
           }}
           startAdornment={<SearchIcon />}
           endAdornment={
@@ -289,21 +278,22 @@ export default function Result() {
               <Button
                 onClick={handleKeyPress}
                 sx={{
-                  backgroundColor: "red",
+                  backgroundColor: "#783c04",
                   color: "white",
                   marginRight: "10px",
+                  ":hover":{backgroundColor:"#783c04"}
                 }}
               >
                 search
               </Button>
               <Button
-                sx={{ width: "50px", backgroundColor: "red" }}
+                sx={{ width: "50px", backgroundColor: "#783c04",":hover":{backgroundColor:"#783c04"}}}
                 variant="contained"
                 onClick={toggleDrawer(true)}
               >
                 <TuneSharpIcon
                   onClick={toggleDrawer(true)}
-                  sx={{ backgroundColor: "red" }}
+                  sx={{ backgroundColor: "#783c04" }}
                 />
               </Button>
             </>

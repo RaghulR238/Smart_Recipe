@@ -1,62 +1,111 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../components/nav";
-import Footer from "../components/footer";
-import { Box, Container } from "@mui/system";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Rating,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import Navbar from '../components/nav'
+import Footer from '../components/footer'
+import axios from 'axios';
+import { Card, CardContent, CardMedia, Container, Grid, Rating, Stack, Typography,Box, InputBase, Button } from '@mui/material';
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import TuneSharpIcon from "@mui/icons-material/TuneSharp";
+import { useNavigate } from 'react-router-dom';
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
-import axios from "axios";
-import "./whislist.css";
-import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+import SearchIcon from "@mui/icons-material/Search";
 
 
-export default function Wishlist() {
+const CartNotification = ({ message }) => {
+  console.log(message);
+  return (
+    <div
+      style={{
+        display: "none",
+        //position: 'fixed',
+        top: '10px',
+        right: '10px',
+        padding: '10px',
+        backgroundColor: '#4CAF50',
+        color: 'white',
+        //width:"100px",
+        //borderRadius: '5px',
+       // boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        display:message ? 'block' : 'none',
+      }}
+    >
+     {message}
+    </div>
+  );
+};
+
+
+
+
+export default function MongoPage() {
   useEffect(()=>{
     window.scrollTo(0,0);
   },[])
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [title, setTitle] = useState();
-
-  useEffect(()=>{
+  const [cartMessage, setCartMessage] = useState('');
+    const navigate=useNavigate();
+    const [title, setTitle] = useState();
+    const [searchMongo,setSearch]=useState('');
+    const [searchValue,setSearchValue]=useState();
+    useEffect(()=>{
     
-    const fetchData = async () => {
-      try {
-        const allCookies = document.cookie;
-  
-        const response = await axios.get("http://localhost:3002/api/upload/", {
-          withCredentials: true,
-          headers: {
-            Cookie: allCookies,
-          },
-        });
-        console.log(response.data);
-        localStorage.setItem("currentUser", JSON.stringify(response.data));
-  
-        setTitle(response.data);
-  
-        console.log("Response:", response.data);
-      } catch (error) {
-        console.error(error);
+        const fetchData = async () => {
+          try {
+            const allCookies = document.cookie;
+      
+            const response = await axios.get("http://localhost:3002/api/upload/all", {
+              withCredentials: true,
+              headers: {
+                Cookie: allCookies,
+              },
+            });
+            console.log("Mongo Content  :  ",response.data);
+            localStorage.setItem("currentUser", JSON.stringify(response.data));
+      
+            setTitle(response.data);
+      
+            console.log("Response:", response.data);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        fetchData();
+      },[])
+
+      function handleSubmit()
+      {
+        setSearchValue(searchMongo);
+        console.log(searchValue);
       }
-    };
-    fetchData();
-  },[])
+
+      const allCookies = document.cookie;
+      async function handleSaves(e,card)
+      {
+        e.stopPropagation();
+        console.log(card);
+        const { _id, ...cleanedCard } = card;
+        setCartMessage('Item added to wishlist');
+        setTimeout(() => {
+          setCartMessage('');
+        }, 3000);
+        try{
+          await axios.post("http://localhost:3002/api/saves/create",{
+            ...cleanedCard
+          },{
+            withCredentials: true,
+            headers: {
+              Cookie: allCookies,
+            },
+          },{})
+          
+        }
+        catch(err)
+        {
+          console.log(err.response.data)
+        }
+      }
+      
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <Stack
         sx={{
           backgroundColor: "black",
@@ -67,22 +116,51 @@ export default function Wishlist() {
           zIndex: 1000,
         }}
       >
-        <Typography
-          variant="h3"
-          sx={{ textAlign: "left", color: "white", marginLeft: "700px",fontFamily: "'Dancing Script', cursive"}}
-        >
-          YOUR UPLOADS
-        </Typography>
-        <div style={{ height: "8px", backgroundColor: "#19e6e2" }}></div>
+        <InputBase
+          placeholder="Enter your search"
+           value={searchMongo}
+          onChange={(e)=>setSearch(e.target.value)}
+          sx={{
+            backgroundColor: "white",
+            padding: "0.5rem",
+            borderRadius: "5px",
+            width: "800px",
+            marginLeft: "350px",
+            marginBottom: "10px",
+          }}
+          startAdornment={<SearchIcon />}
+          endAdornment={
+            <>
+              <Button
+                onClick={handleSubmit}
+                sx={{
+                  backgroundColor: "#783c04",
+                  color: "white",
+                  marginRight: "10px",
+                  ":hover":{backgroundColor:"#783c04"}
+                }}
+              >
+                search  
+              </Button>
+            </>
+          }
+        />
+          <div style={{height:'8px',backgroundColor:'#19e6e2'}}></div>
+          <CartNotification message={cartMessage} />
       </Stack>
-      {(title && title[0] !== undefined) ? (
-        <Container sx={{ marginTop: "100px" }}>
+      {/* <CartNotification message={cartMessage} /> */}
+      
+      {title && (
+        <Container sx={{ marginTop: "130px" }}>
           <Grid container spacing={4}>
-            {title.map((card) => (
+            
+            {title
+       .filter((c) => c.title && c.title.includes(searchMongo || ''))
+        .map((card) => (
               <Grid item key={card} xs={1} sm={1} md={3}>
                 <Card
                   onClick={() =>
-                    navigate("/final", { state: {data:card} })
+                    navigate("/final", { state: { data: card } })
                   }
                   sx={{
                     height: "454px",
@@ -110,13 +188,14 @@ export default function Wishlist() {
                     <div style={{ position: "relative" }}>
                       <FavoriteIcon
                         sx={{
-                          color: "white",
+                          color: "grey",
                           position: "absolute",
                           top: 2,
                           right: 4,
                           fontSize: "35px",
                           ":hover": { color: "red" },
                         }}
+                        onClick={(e)=>handleSaves(e,card)}
                       />
                       <img
                         src={card.image}
@@ -179,16 +258,11 @@ export default function Wishlist() {
             ))}
           </Grid>
         </Container>
-      ):(
-        <>
-        <Box sx={{display:"flex",justifyContent:'center',marginTop:"120px",flexDirection:'column',alignItems:"center"}}>
-          <ProductionQuantityLimitsIcon sx={{fontSize:'100px'}}/>
-          <p style={{fontFamily: "'Dancing Script', cursive",marginTop:'20px',fontSize:'30px',color:"#783c04"}}>No uploads yet</p>
-          <Box sx={{backgroundColor:'#783c04',color:"white",padding:'20px',cursor:"pointer",fontSize:"20px"}} onClick={()=>navigate("/upload")}>Start Uploading</Box>
-        </Box>
-          </>
       )}
-      <Footer />
+
+       
+   
+      <Footer/>
     </div>
-  );
+  )
 }

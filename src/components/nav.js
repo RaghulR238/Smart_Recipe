@@ -12,6 +12,7 @@ import {
   experimentalStyled,
   styled,
 } from "@mui/material";
+import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
 import React, { useEffect, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -72,6 +73,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
   const handleLogOut = async () => {
     try {
       const res = await axios.post("http://localhost:3002/api/auth/logout", {
@@ -80,7 +82,7 @@ const Navbar = () => {
       localStorage.setItem("currentUser", null);
       navigate("/");
       updateLoginData(null);
-      //console.log("Data is", res.data);
+      console.log("Data is", res.data);
     } catch (err) {
       console.log(err);
     }
@@ -120,8 +122,8 @@ const Navbar = () => {
           </h6>
           {isDropdownOpen && (
             <div className="dropdown-content">
-              <h5 className="hh">BreakFast Recipes</h5>
-              <h5 className="hh">Lunch Recipes</h5>
+              <h5 className="hh" onClick={()=>navigate("/recipe1")}>BreakFast Recipes</h5>
+              <h5 className="hh" onClick={()=>navigate("/lunch")}>Lunch Recipes</h5>
               <h5 className="hh">Dinner Recipes</h5>
               <h5 className="hh">Dessert Recipes</h5>
               <h5 className="hh">Quick & Easy Recipes</h5>
@@ -220,45 +222,51 @@ const Navbar = () => {
           >
             ABOUT
           </h6>
+          
+        </div>
+        <div className="dropdown-container" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <h6 variant="contained" className="dropdown-button" style={{ fontWeight: "bold" }}>
+        <BreakfastDiningIcon  sx={{ fontSize: "30px"}} onClick={() => navigate("/mongoPage")}/>
+        </h6>
         </div>
 
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "30px",
-            marginBottom: "10px",
-          }}
-        >
-          {/* <ButtonStyle variant='contained' onClick={()=>navigate('/filter')}>FILTER</ButtonStyle> */}
-
-          <SearchIcon
+        <div className="dropdown-container" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <h6 variant="contained" className="dropdown-button" style={{ fontWeight: "bold" }}>
+        <SearchIcon
             sx={{ fontSize: "30px" }}
             onClick={() => navigate("/filter")}
           />
-          <BookmarkBorderIcon
+        </h6>
+        </div>
+        <div className="dropdown-container" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <h6 variant="contained" className="dropdown-button" style={{ fontWeight: "bold" }}>
+        <BookmarkBorderIcon
             sx={{ fontSize: "30px" }}
-            onClick={() => navigate("/wishlist")}
+            onClick={() => navigate("/saves")}
           />
-          <PublishIcon
+        </h6>
+        </div>
+
+        <div className="dropdown-container" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <h6 variant="contained" className="dropdown-button" style={{ fontWeight: "bold" }}>
+        <PublishIcon
             sx={{ fontSize: "30px" }}
             onClick={() => navigate("/upload")}
           />
+        </h6>
+        </div>
 
-          {/* {(loginData === null) ? (
-  <Avatar src="/static/images/avatar/1.jpg" onClick={() => navigate('/login')} style={{ cursor: 'pointer' }}/>
-) : (
-  //console.log(loginData.imageUrl)
-  <Avatar src={loginData.imageUrl}
-   onClick={() => {
-    navigate('/login');
-  }
-}
-   />
-)} */}
+       
+        
+          
+          
+          
+          
+
+         
           {loginData !== null && (
-            <Typography sx={{ color: "white" }}>
-              {loginData.username}
+            <Typography sx={{ color: "white",marginBottom:"8px",fontWeight:"bold",color:"#19e6e2"}}>
+              {loginData.username.toUpperCase()}
             </Typography>
           )}
 
@@ -267,7 +275,7 @@ const Navbar = () => {
               <Avatar
                 src="URL_TO_USER_PROFILE_IMAGE"
                 onClick={handleClick}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer",marginBottom:"8px",fontSize:'100px' }}
               />
 
               <Menu
@@ -289,9 +297,9 @@ const Navbar = () => {
           ) : (
             <div>
               <Avatar
-                src={loginData.imageUrl}
+                src={loginData.image}
                 onClick={handleClick}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer",marginBottom:"8px",fontSize:'50px' }}
               />
 
               <Menu
@@ -307,15 +315,14 @@ const Navbar = () => {
                   horizontal: "right",
                 }}
               >
-                <MenuItem onClick={() => navigate("/profile")}>
-                  Profile
-                </MenuItem>
-
+                <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
+                <MenuItem onClick={()=>navigate("/wishlist")}>My Uploads</MenuItem>
+                <MenuItem onClick={()=>navigate("/saves")}>My Whislist</MenuItem>
                 <MenuItem onClick={handleLogOut}>Logout</MenuItem>
               </Menu>
             </div>
           )}
-        </Box>
+        
       </StyledToolBar>
     </AppBar>
   );

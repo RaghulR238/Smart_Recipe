@@ -18,12 +18,12 @@ useEffect(()=>
 {
   const fetchData = async () => {
     try {
-    //   console.log("fetch data called");
+      console.log("fetch data called");
 
-    //   const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=10&apiKey=${apikeymaja}`);
+      const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=10&apiKey=${apikeymaja}`);
 
-    //  console.log(response.data.recipes);
-    //   setTitle(response.data.recipes);
+     console.log(response.data.recipes);
+      setTitle(response.data.recipes);
     } catch (error) {
       console.error('Error fetching data:', error);
     }

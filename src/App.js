@@ -88,19 +88,22 @@ function App() {
     autoplaySpeed:1000,
     
   };
+  const apikeymaja='b3a6549e3e4142e6a9a8219944003f85';
+  const apiKey1 = "b9277005ebf74f12b62510043e2869a5";
   const[title,setTitle]=useState([]);
-const apikeymaja='b3a6549e3e4142e6a9a8219944003f85';
-const apiKey1 = "b9277005ebf74f12b62510043e2869a5";
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  },[])
 useEffect(()=>
 {
   const fetchData = async () => {
     try {
-    //   console.log("fetch data called");
+      console.log("fetch data called");
 
-    //   const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=10&apiKey=${apiKey1}`);
+      const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=10&apiKey=${apiKey1}`);
 
-    //  console.log(response.data.recipes);
-    //   setTitle(response.data.recipes);
+     console.log(response.data.recipes);
+      setTitle(response.data.recipes);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -139,8 +142,8 @@ else
     
     <Navbar/>
    <Container sx={{marginTop:'-20px'}}>
-    <Stack direction='column'   >
       <R1/>
+    <Stack direction='column'   >
       <Content />
     </Stack>
     <Typography variant="h3" sx={{ fontFamily: "'Pacifico', cursive",textAlign:'left' ,color:'black', margin:'50px 50px 50px 0px'}}>

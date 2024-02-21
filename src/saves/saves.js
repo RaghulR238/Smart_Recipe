@@ -1,41 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 import Navbar from "../components/nav";
 import Footer from "../components/footer";
-import { Box, Container } from "@mui/system";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Rating,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Box, Card, CardContent, CardMedia, Container, Grid, Rating, Stack, Typography } from '@mui/material';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import TuneSharpIcon from "@mui/icons-material/TuneSharp";
 import TimerSharpIcon from "@mui/icons-material/TimerSharp";
-import axios from "axios";
-import "./whislist.css";
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import "./saves.css";
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
-
-
-export default function Wishlist() {
-  useEffect(()=>{
-    window.scrollTo(0,0);
-  },[])
+export default function Saves() {
   const navigate = useNavigate();
   const location = useLocation();
   const [title, setTitle] = useState();
-
   useEffect(()=>{
     
     const fetchData = async () => {
       try {
         const allCookies = document.cookie;
   
-        const response = await axios.get("http://localhost:3002/api/upload/", {
+        const response = await axios.get("http://localhost:3002/api/saves/", {
           withCredentials: true,
           headers: {
             Cookie: allCookies,
@@ -43,7 +27,8 @@ export default function Wishlist() {
         });
         console.log(response.data);
         localStorage.setItem("currentUser", JSON.stringify(response.data));
-  
+
+      
         setTitle(response.data);
   
         console.log("Response:", response.data);
@@ -53,9 +38,9 @@ export default function Wishlist() {
     };
     fetchData();
   },[])
-
   return (
-    <div>
+   
+      <div>
       <Navbar />
       <Stack
         sx={{
@@ -69,14 +54,16 @@ export default function Wishlist() {
       >
         <Typography
           variant="h3"
-          sx={{ textAlign: "left", color: "white", marginLeft: "700px",fontFamily: "'Dancing Script', cursive"}}
+          sx={{ textAlign: "left", color: "white", marginLeft: "700px",fontFamily: "'Dancing Script', cursive" }}
+          
         >
-          YOUR UPLOADS
+          WISHLIST
         </Typography>
         <div style={{ height: "8px", backgroundColor: "#19e6e2" }}></div>
       </Stack>
       {(title && title[0] !== undefined) ? (
         <Container sx={{ marginTop: "100px" }}>
+        
           <Grid container spacing={4}>
             {title.map((card) => (
               <Grid item key={card} xs={1} sm={1} md={3}>
@@ -110,12 +97,12 @@ export default function Wishlist() {
                     <div style={{ position: "relative" }}>
                       <FavoriteIcon
                         sx={{
-                          color: "white",
+                          color: "red",
                           position: "absolute",
                           top: 2,
                           right: 4,
                           fontSize: "35px",
-                          ":hover": { color: "red" },
+                          
                         }}
                       />
                       <img
@@ -183,12 +170,13 @@ export default function Wishlist() {
         <>
         <Box sx={{display:"flex",justifyContent:'center',marginTop:"120px",flexDirection:'column',alignItems:"center"}}>
           <ProductionQuantityLimitsIcon sx={{fontSize:'100px'}}/>
-          <p style={{fontFamily: "'Dancing Script', cursive",marginTop:'20px',fontSize:'30px',color:"#783c04"}}>No uploads yet</p>
-          <Box sx={{backgroundColor:'#783c04',color:"white",padding:'20px',cursor:"pointer",fontSize:"20px"}} onClick={()=>navigate("/upload")}>Start Uploading</Box>
+          <p style={{fontFamily: "'Dancing Script', cursive",marginTop:'20px',fontSize:'30px',color:"#783c04"}}>Nothing found in whislist</p>
+          <Box sx={{backgroundColor:'#783c04',color:"white",padding:'20px',cursor:"pointer",fontSize:"20px"}} onClick={()=>navigate("/mongoPage")}>Start Shopping</Box>
         </Box>
           </>
       )}
       <Footer />
     </div>
-  );
+      
+  )
 }

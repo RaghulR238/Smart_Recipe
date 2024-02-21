@@ -79,7 +79,7 @@ export default function Login() {
     email: "",
     password: "",
     country: "",
-    lastName: "",
+    lastname: "",
     state: "",
     mobile_number:"",
  
@@ -184,20 +184,36 @@ export default function Login() {
     }
   };
   const [newUser, setNewUser] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const buttonStyles = {
+    backgroundColor: isHovered ? 'white' : '#783c04',
+    color: isHovered ? '#783c04' : 'white',
+    border: 'none',
+    transition: 'background-color 0.5s ease',
+  };
   return (
     <Stack sx={{ backgroundColor: "#dcc838" }}>
-      <MDBContainer fluid className="my-5">
-        <MDBRow className="g-0 align-items-center">
-          <MDBCol col="6">
+      <MDBContainer fluid className="my-4" >
+        <MDBRow className="g-0 align-items-center" >
+          <MDBCol col="6" >
             <MDBCard
               className="my-5 cascading-right"
               style={{
                 background: "hsla(0, 0%, 100%, 0.55)",
                 backdropFilter: "blur(30px)",
+                
               }}
             >
-              <MDBCardBody className="p-5 shadow-5 text-center">
+              <MDBCardBody className="p-5 shadow-5 text-center" > 
                 <img
                   src={logo}
                   style={{
@@ -223,26 +239,10 @@ export default function Login() {
                         />
                       </MDBCol>
 
-                      <MDBCol col="6">
-                        <MDBInput
-                          wrapperClass="mb-4"
-                          label="Last name"
-                          id="form2"
-                          type="text"
-                          //value={lastName}
-                          //onChange={handleLastNameChange}
-                        />
-                      </MDBCol>
+                    
                     </MDBRow>
 
-                    <MDBInput
-                      wrapperClass="mb-4"
-                      label="Email"
-                      id="form3"
-                      type="email"
-                      //value={email}
-                      //onChange={handleEmailChange}
-                    />
+                 
                     <MDBInput
                       wrapperClass="mb-4"
                       label="Password"
@@ -257,6 +257,7 @@ export default function Login() {
                       className="w-100 mb-4"
                       size="md"
                       onClick={handleSubmit}
+                      style={{backgroundColor:"#783c04",color:"white",border:'none',}}
                     >
                       sign in
                     </MDBBtn>
@@ -284,7 +285,7 @@ export default function Login() {
                     <p style={{ margin: "20px" }}>
                       Don't have an account!{" "}
                       <span
-                        style={{ color: "blue", cursor: "pointer" }}
+                        style={{ color: "blue", cursor: "pointer",textDecoration:"underline",transition: "background-color 0.5s ease",":hover":{backgroundColor:"white"}}}
                         onClick={() => setNewUser(false)}
                       >
                         Sign Up
@@ -316,8 +317,8 @@ export default function Login() {
                           label="Last name"
                           id="form2"
                           type="text"
-                          name="lastName"
-                          value={upload.lastName}
+                          name="lastname"
+                          value={upload.lastname}
                           onChange={ handleChange}
                         />
                       </MDBCol>
@@ -426,7 +427,7 @@ export default function Login() {
           <MDBCol col="6">
             <img
               src={i1}
-              style={{ height: "750px" }}
+              style={{ height: "800px" }}
               class="w-100 rounded-4 shadow-4"
               alt=""
               fluid
